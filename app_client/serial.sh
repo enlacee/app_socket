@@ -15,4 +15,4 @@ stty $CONF_VELOCIDAD -F $RUTA_PS cs$CONF_NUMERO_BITS_TRAMA $CONF_OPCIONES
 
 #Capturando data
 cat $RUTA_PS | while read line; do php RUTA_PHP "${line}" && echo ${line}; done >> serial.log &
-#cat $RUTA_PS | while read line; do echo $line; done >> serial.log &
+######## php servicio.php ${line} && echo ${line} > serial.log;

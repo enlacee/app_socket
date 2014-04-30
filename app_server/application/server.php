@@ -9,7 +9,7 @@
  */
 
 # server.php
-$server = stream_socket_server("tcp://127.0.0.1:81", $errno, $errorMessage);
+$server = stream_socket_server("tcp://127.0.0.1:1337", $errno, $errorMessage);
 
 if ($server === false) {
     throw new UnexpectedValueException("Could not bind to socket: $errorMessage");
@@ -18,20 +18,19 @@ if ($server === false) {
 for (;;) {
     $client = @stream_socket_accept($server);
 
-    if ($client) {
-        //stream_copy_to_stream($client, $client);
+    if ($client) {		
+		$string = "";
+
+		// Tomar un paquete (1500 es un tamaño de MTU típico) de información OOB 
+		$string .= stream_socket_recvfrom($client, 1500, STREAM_PEEK);
+		$string .= stream_socket_recvfrom($client, 1500, STREAM_OOB);
+		//echo stream_socket_recvfrom($client, 1500);
+		
+		// enviar datos a una clase para Guardar en DB
+		echo "[$string]";
         
-		/* Tomar un paquete (1500 es un tamaño de MTU típico) de información OOB */
-		//echo "Recibido Fuera de Banda: '" . stream_socket_recvfrom($client, 1500, STREAM_OOB) . "'\n";
-
-		/* Echar un vistazo a la información en banda normal, pero sin comsumirla. */
-		//echo "Información: '" . stream_socket_recvfrom($client, 1500, STREAM_PEEK) . "'\n";
-
-		/* Obtener el mismo paquete exactamente otra vez, pero eliminándolo del buffer esta vez. */
-		//echo "Información: '" . stream_socket_recvfrom($client, 1500) . "'\n";
-
-		var_dump(stream_get_contents($client));
-
-        fclose($client);        
+        /* Cerrarlo */
+		fclose($client);
+		fclose($server);
     }
 }
