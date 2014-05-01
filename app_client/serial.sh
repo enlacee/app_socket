@@ -4,7 +4,7 @@ RUTA_PS=/dev/ttyS1 #Puerto Serial
 CONF_VELOCIDAD="9600"
 CONF_NUMERO_BITS_TRAMA="8"
 CONF_OPCIONES="-parenb"
-RUTA_PHP=./application/client.php
+RUTA_PHP=application/client.php
 
 echo "######### en dev ##########"
 echo "leyendo puerto : $RUTA_PS"
