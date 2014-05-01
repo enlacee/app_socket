@@ -14,10 +14,10 @@ class Service {
     {		
         if(isset($argv)) {
             $this->data = $argv;
-            error_log("-------------constructor---------------".__FILE__);
-            error_log("---------------------------------------");
-            error_log(print_r($argv, true));
-            error_log("---------------------------------------");
+            //error_log("-------------constructor---------------".__FILE__);
+            //error_log("---------------------------------------");
+            //error_log(print_r($argv, true));
+            //error_log("---------------------------------------");
             $this->sendData();
             
         } else {

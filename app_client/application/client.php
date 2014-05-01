@@ -9,5 +9,6 @@
  */
 require_once 'Service.php';
 $client = new Service($argv);
-echo "_client.php : respuesta_final ";
+echo "inicio_client.php";
 var_dump($client);
+echo "final_client.php";
