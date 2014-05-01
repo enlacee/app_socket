@@ -8,7 +8,7 @@ RUTA_PHP=application/client.php
 
 echo "######### en dev ##########"
 echo "leyendo puerto : $RUTA_PS"
-sleep(1)
+sleep1
 
 #Configurando puerto serial para lectura
 stty $CONF_VELOCIDAD -F $RUTA_PS cs$CONF_NUMERO_BITS_TRAMA $CONF_OPCIONES
