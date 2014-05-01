@@ -31,7 +31,7 @@ for (;;) {
         echo "[$string]";
 
         /* Cerrarlo */
-        fclose($client);
-        fclose($server);
+        fclose($client);        
     }
 }
+fclose($server);
