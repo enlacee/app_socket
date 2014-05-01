@@ -4,11 +4,11 @@ RUTA_PS=/dev/ttyS1 #Puerto Serial
 CONF_VELOCIDAD="9600"
 CONF_NUMERO_BITS_TRAMA="8"
 CONF_OPCIONES="-parenb"
-RUTA_PHP=application/client.php
+RUTA_PHP=./application/client.php
 
 echo "######### en dev ##########"
 echo "leyendo puerto : $RUTA_PS"
-sleep1
+sleep 1
 
 #Configurando puerto serial para lectura
 stty $CONF_VELOCIDAD -F $RUTA_PS cs$CONF_NUMERO_BITS_TRAMA $CONF_OPCIONES
