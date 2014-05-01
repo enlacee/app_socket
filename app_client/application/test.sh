@@ -7,6 +7,6 @@ echo "TU NOMBRE ES:"
 
 line="copitan123"
 
-php servicio.php ${line} && echo ${line} > serial.log;
+php client.php ${line} && echo ${line} > serial.log;
 
 echo "FINNNN: [$line]   "
