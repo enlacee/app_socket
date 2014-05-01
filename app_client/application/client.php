@@ -7,7 +7,7 @@
  * IP = 190.187.26.210
  * Puerto = 81
  */
-
+require_once 'Service.php';
 $client = new Service($argv);
 echo "_client.php : respuesta_final ";
 var_dump($client);
