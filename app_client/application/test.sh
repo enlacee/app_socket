@@ -1,12 +1,11 @@
 #!/bin/bash
 clear
 echo "=========================="
-echo           CRON-PHP
+echo       CRON-PHP-TEST
 echo "=========================="
-echo "TU NOMBRE ES:"
 
 line="copitan123"
 
 php client.php ${line} && echo ${line} > serial.log;
 
-echo "FINNNN: [$line]   "
+echo "FIN: [$line] "
