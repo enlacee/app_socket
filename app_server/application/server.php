@@ -19,12 +19,48 @@ for (;;) {
     $client = @stream_socket_accept($server);
 
     if ($client) {
-        $serial = fread($client, 1500);
+        $serial = '';
+        $serial .= fread($client, 1500);        
+        // Send data to DB
+        echo "[$serial]";
         
-        // enviar datos a una clase para Guardar en DB
-        echo "[$serial ]";
-        /* Cerrarlo */
+        if (!empty($serial)) {
+            //encapsulado($serial);
+        }
+        
+        // close
         fclose($client);        
     }
 }
 fclose($server);
+
+
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+
+
+/**
+ * Funcion Encapsula class
+ */
+function encapsulado($serial)
+{
+    // libray
+    require_once 'Service.php';
+    require_once '../../vendor/helper/helper.php';
+
+    // ejecution
+    $server = Service::getInstance();
+    //$serial = "0105140428";
+    $array = $server->formatData($serial);
+    $flag = $server->saveInDB($array);
+
+    // log
+    if ($flag) {
+        write_log($serial);
+    } else {
+        write_log("error : " . $serial);
+    }
+    
+}
