@@ -10,7 +10,8 @@
 
 // libray
 require_once 'Service.php';
-require_once '../../vendor/helper/helper.php';
+echo "DIR=[".__DIR__."]";
+require_once './../../vendor/helper/helper.php';
 //write_log(print_r($argv,true));
 $data = $argv[1];
 
