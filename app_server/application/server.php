@@ -9,7 +9,6 @@
  */
 
 # server.php
-// $server = stream_socket_server("tcp://127.0.1.1:81", $errno, $errorMessage);
 $server = stream_socket_server("tcp://0.0.0.0:82", $errno, $errorMessage);
 
 if ($server === false) {
@@ -19,20 +18,11 @@ if ($server === false) {
 for (;;) {
     $client = @stream_socket_accept($server);
 
-    if ($client) {		
-        $string = "";
+    if ($client) {
+        $serial = fread($client, 1500);
         
-        $string .= fread($client, 1500);
-        
-        
-        // Tomar un paquete (1500 es un tamaño de MTU típico) de información OOB 
-        //$string .= stream_socket_recvfrom($client, 1500, STREAM_PEEK);
-        //$string .= stream_socket_recvfrom($client, 1500, STREAM_OOB);
-        //echo stream_socket_recvfrom($client, 1500);
-
         // enviar datos a una clase para Guardar en DB
-        echo "[$string]";
-
+        echo "[$serial ]";
         /* Cerrarlo */
         fclose($client);        
     }
