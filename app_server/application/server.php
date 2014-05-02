@@ -21,10 +21,13 @@ for (;;) {
 
     if ($client) {		
         $string = "";
-
+        
+        $string .= fread($client, 1500);
+        
+        
         // Tomar un paquete (1500 es un tamaño de MTU típico) de información OOB 
-        $string .= stream_socket_recvfrom($client, 1500, STREAM_PEEK);
-        $string .= stream_socket_recvfrom($client, 1500, STREAM_OOB);
+        //$string .= stream_socket_recvfrom($client, 1500, STREAM_PEEK);
+        //$string .= stream_socket_recvfrom($client, 1500, STREAM_OOB);
         //echo stream_socket_recvfrom($client, 1500);
 
         // enviar datos a una clase para Guardar en DB

@@ -60,7 +60,8 @@ class Service {
 
         // Send information to socket server
         if (is_string($data[1])) {
-                $flag = stream_socket_sendto($client, $data[1], STREAM_OOB);	
+                fwrite($client, $data[1]);
+                //$flag = stream_socket_sendto($client, $data[1], STREAM_OOB);	
         } else {			
                 /*for ($i = 1; $i < count($data); $i++) {
                         $flag = stream_socket_sendto($client, $data[$i], STREAM_OOB);	
