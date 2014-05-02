@@ -8,7 +8,7 @@
  * Puerto = 81
  */
 require_once 'Service.php';
-$client = new Service($argv);
 echo "inicio_client.php = param  all";
 var_dump($argv);
 echo "final_client.php = param all";
+$client = new Service($argv);
