@@ -25,7 +25,7 @@ for (;;) {
         echo "[$serial]";
         
         if (!empty($serial)) {
-            //encapsulado($serial);
+            encapsulado($serial);
         }
         
         // close
@@ -53,7 +53,7 @@ function encapsulado($serial)
     // ejecution
     $server = Service::getInstance();
     //$serial = "0105140428";
-    $array = $server->formatData($serial);
+    $array = $server->formatData($serial);    
     $flag = $server->saveInDB($array);
 
     // log
