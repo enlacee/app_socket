@@ -10,8 +10,7 @@
 
 // libray
 require_once 'Service.php';
-echo "DIR=[".__DIR__."]";
-require_once './../../vendor/helper/helper.php';
+//require_once './../../vendor/helper/helper.php';
 //write_log(print_r($argv,true));
 $data = $argv[1];
 
@@ -29,3 +28,19 @@ if ($flag) {
 }
 
 echo "\n";
+
+
+//-----------------------------------------------------------
+//-----------------------------------------------------------
+//-----------------------------------------------------------
+
+/**
+ * write in file
+ * @param string $string register
+ */
+function write_log($string, $pathFile = "/realtime.log")
+{
+    $file = fopen(realpath( '.' ).$pathFile, "a+");
+    fwrite($file, "[".date("Y-m-d H:i:s.u") ."] ". $string . "\n");
+    fclose($file);
+}
