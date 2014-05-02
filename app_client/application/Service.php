@@ -8,18 +8,12 @@ class Service {
     public $data;
 
     /**
-     * Init process 
+     * Init load Data 
      */
     public function __construct($argv)
     {		
         if(isset($argv)) {
-            $this->data = $argv;
-            //error_log("-------------constructor---------------".__FILE__);
-            //error_log("---------------------------------------");
-            //error_log(print_r($argv, true));
-            //error_log("---------------------------------------");
-            $this->sendData();
-            
+            $this->data = $argv;                     
         } else {
             echo "No existen parametros : argv";
         }
@@ -39,19 +33,18 @@ class Service {
     }
 
     /**
-     * Send Data
-     * @param  [String] $data [String, response serial]
-     * @return [Void]       [description]
+     * Send Data at server Socket 
+     * @return [Boolean]   true if success
      */
-    private function sendData()
+    public function sendData()
     {	
         $data = $this->data;
+        $flag = false;
 
         $config = $this->readConfigFile();
         $ip = $config['server']['ip'];
         $port = $config['server']['port'];
-
-        //$client = stream_socket_client("tcp://$addr:80", $errno, $errorMessage);
+        
         $client = stream_socket_client("tcp://$ip:$port", $errno, $errorMessage);
 
         if ($client === false) {
@@ -59,13 +52,9 @@ class Service {
         }
 
         // Send information to socket server
-        if (is_string($data[1])) {
-                fwrite($client, $data[1]);
-                //$flag = stream_socket_sendto($client, $data[1], STREAM_OOB);	
-        } else {			
-                /*for ($i = 1; $i < count($data); $i++) {
-                        $flag = stream_socket_sendto($client, $data[$i], STREAM_OOB);	
-                }*/
+        if (is_string($data)) {
+            fwrite($client, $data);
+            $flag = true;         	
         }
 
         // close conexion socket

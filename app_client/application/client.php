@@ -7,8 +7,24 @@
  * IP = 190.187.26.210
  * Puerto = 81
  */
+
+// libray
 require_once 'Service.php';
-echo "inicio_client.php = param  all";
-var_dump($argv);
-echo "final_client.php = param all";
-$client = new Service($argv);
+require_once '../../vendor/helper/helper.php';
+//write_log(print_r($argv,true));
+$data = $argv[1];
+
+// ejecution
+echo "\nSending : [". $data ."] ". date("Y-m-d H:i:s.u");
+$client = new Service($data);
+$flag = $client->sendData();
+
+// log
+if ($flag) {
+    echo "\nSuccess : [". $data ."] ". date("Y-m-d H:i:s.u");
+    write_log("correct record : " . $data);
+} else {
+    write_log("not record : " . $data);
+}
+
+echo "\n";
