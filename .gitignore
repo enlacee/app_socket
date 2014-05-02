@@ -1,4 +1,12 @@
 # ide netbeans
 nbproject/*
 
+# client
+app_client/application/*.log
+
+# server
+app_server/application/*.log
+
+
+
 
