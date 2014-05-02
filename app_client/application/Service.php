@@ -36,7 +36,7 @@ class Service {
      * Send Data at server Socket 
      * @return [Boolean]   true if success
      */
-    public function sendData()
+    public function sendDataBySocket()
     {	
         $data = $this->data;
         $flag = false;

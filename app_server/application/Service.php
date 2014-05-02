@@ -14,10 +14,8 @@ class Service {
     public static function getInstance() 
     {
       if( self::$_instance === NULL ) {
-        self::$_instance = new self();
-        echo "new class :";
-      }
-      echo "instanciaa";
+        self::$_instance = new self();        
+      }      
       return self::$_instance;
     }
     
@@ -34,39 +32,56 @@ class Service {
         }
     }
 
-
+    /**
+     * Create Sheme data for database
+     * @param String min 4 char
+     * @return Array assoc
+     */
+    public function formatData($dataString)
+    {
+        $data = array();
+        if (isset($dataString) && !empty($dataString) ) {
+            
+            if (strlen($dataString) > 4 ){
+                $data['slot'] = substr($dataString, 0,4);
+                $data['valor'] = substr($dataString, 4); //despues de 4
+                
+            }// [ && , !! ]
+        }
+        
+        return $data;
+    }
     
     /**
      * Send Data
-     * @param  [String] $data [String, response serial]
-     * @return [Void]       [description]
+     * @param  Array $data SHEMA for database
+     * @return [Void] Save in db
      */
-    public function saveData($data)
-    {	
+    public function saveInDB($data)
+    {   
+        $flag = false;
         
-        $slot = '1206';
-        $valor = '222735';
-        $fecha = date("Y-m-d");
+        if (empty($data) && !is_array($data)) {
+            return $flag;
+        }
         
-        $stmt = $this->conn->prepare('INSERT INTO datos (slot, valor, fecha) VALUES(?, ?, ?)');
+        $slot = $data['slot']; //"1206";
+        $valor = $data['valor']; //'222735';
+        $stmt = $this->conn->prepare('INSERT INTO datos (slot, valor) VALUES(?, ?)');
         try {
-            $this->conn->beginTransaction();
-            
-            $stmt->bindValue(1, $slot, PDO::PARAM_STR);
-            $stmt->bindValue(2, $valor, PDO::PARAM_INT);
-            $stmt->bindValue(3, $fecha, PDO::PARAM_STR);
-            $stmt->execute();            
-            
+            $this->conn->beginTransaction();            
+            $stmt->bindValue(1, $slot);
+            $stmt->bindValue(2, $valor);
+            $stmt->execute();
             $this->conn->commit();
-            
+            $flag = true;
         } catch (Exception $exc) {
+            echo "rollbackkkk";
             $this->conn->rollBack();
             echo $exc->getTraceAsString();
         }
-            
         
-        
-
+        return $flag;
     }        
 }
 

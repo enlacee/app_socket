@@ -17,14 +17,14 @@ $data = $argv[1];
 // ejecution
 echo "\nSending : [". $data ."] ". date("Y-m-d H:i:s.u");
 $client = new Service($data);
-$flag = $client->sendData();
+$flag = $client->sendDataBySocket();
 
 // log
 if ($flag) {
     echo "\nSuccess : [". $data ."] ". date("Y-m-d H:i:s.u");
-    write_log("correct record : " . $data);
+    write_log($data);
 } else {
-    write_log("not record : " . $data);
+    write_log("error send : " . $data);
 }
 
 echo "\n";
