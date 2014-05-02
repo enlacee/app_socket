@@ -8,29 +8,33 @@ class Service {
      *
      * @var type Connection
      */
-    public $conn;
+    protected static $_instance;
+    private $conn;
 
+    public static function getInstance() 
+    {
+      if( self::$_instance === NULL ) {
+        self::$_instance = new self();
+        echo "new class :";
+      }
+      echo "instanciaa";
+      return self::$_instance;
+    }
+    
     /**
      * Init process 
      */
     public function __construct()
-    {
-      $this->connection();
-    }
-
-    /**
-     * Conexion 
-     */
-    private  function connection()
     {
         try {
             $this->conn = new PDO('mysql:host=localhost;dbname=free_xploralog', 'root', '123456');
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch(PDOException $e) {
             echo 'ERROR: ' . $e->getMessage();
-        } 
-    
+        }
     }
+
+
     
     /**
      * Send Data
