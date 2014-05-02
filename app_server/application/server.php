@@ -55,7 +55,7 @@ require_once '../../vendor/helper/helper.php';
 $server = Service::getInstance();
 //$serial = "0105140428";
 $array = $server->formatData($serial);
-var_dump($server->testConnection());
+//var_dump($server->testConnection());
 $flag = $server->saveInDB($array);
 
 // log
