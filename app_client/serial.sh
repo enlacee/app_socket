@@ -1,6 +1,6 @@
 #!/bin/bash
 
-RUTA_PS=/dev/ttyS1 #Puerto Serial
+RUTA_PS=/dev/ttyS0 #Puerto Serial
 CONF_VELOCIDAD="9600"
 CONF_NUMERO_BITS_TRAMA="8"
 CONF_OPCIONES="-parenb"
