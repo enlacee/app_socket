@@ -8,11 +8,12 @@ require_once '../../vendor/helper/helper.php';
 $server = Service::getInstance();
 $serial = "0105140428";
 $array = $server->formatData($serial);
+var_dump($server->testConnection());
 $flag = $server->saveInDB($array);
 
 // log
 if ($flag) {
     write_log($serial);
 } else {
-    write_log("error send : " . $serial);
+    write_log("error : " . $serial);
 }

@@ -25,8 +25,8 @@ class Service {
     public function __construct()
     {
         try {
-            // $this->conn = new PDO('mysql:host=localhost;dbname=free_xploralog', 'root', '123456'); LOCAL
-            $this->conn = new PDO('mysql:host=localhost;dbname=xplora-genesis2014', 'root', 'xploralog');
+            //$this->conn = new PDO('mysql:host=localhost;dbname=free_xploralog', 'root', '123456'); //LOCAL
+            $this->conn = new PDO('mysql:host=localhost;dbname=xplora-genesis2014', 'root', 'xploralog'); // SERVER
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch(PDOException $e) {
             echo 'ERROR: ' . $e->getMessage();
@@ -39,7 +39,7 @@ class Service {
      */
     public function testConnection()
     {
-      retunr $this->conn;
+      return $this->conn;
     }
 
     /**
