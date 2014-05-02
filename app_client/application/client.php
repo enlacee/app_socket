@@ -9,6 +9,6 @@
  */
 require_once 'Service.php';
 $client = new Service($argv);
-echo "inicio_client.php = param";
+echo "inicio_client.php = param  all";
 var_dump($argv);
-echo "final_client.php = param";
+echo "final_client.php = param all";
