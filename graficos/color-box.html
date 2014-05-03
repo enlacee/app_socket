@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <link rel="shortcut icon" href="public/bootstrap/ico/favicon.ico">
+        <title>Panel | Parametros</title>
+
+        <!-- Custom styles for this template -->
+        <link href="public/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <link href="public/bootstrap/css/bootstrap-colorpicker.min.css" rel="stylesheet">
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+          <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+    </head> 
+    <body>
+        <div class="container">
+
+            <!--- demo -->
+            <h2>Examples</h2>
+            <div class="demo-wrapper">
+                <p>1) Attached to a field with hex format specified via options:</p>
+                <div class="well">
+                    <input type="text" class="form-control demo demo-1 demo-auto" value="#5367ce" />
+
+                </div>
+            </div>   
+
+
+            <div class="well">
+                <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+                    Show
+                </button>
+
+                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4 class="modal-title" id="myModalLabel">In a Modal</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="input-group colorpicker-component demo demo-auto colorpicker-element">
+                                    <input type="text" value="" class="form-control">
+                                    
+                                    
+                                    
+                                    <span class="input-group-addon"><i style="background-color: rgb(0, 0, 0);"></i></span>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>            
+
+
+
+        </div> <!-- /container -->   
+
+
+
+        <script type="text/javascript" src="public/vendor/jquery/jquery-1.11.0.min.js"></script>
+        <script type="text/javascript" src="public/bootstrap/js/bootstrap.min.js"></script>
+
+        <script src="public/bootstrap/js/bootstrap-colorpicker.js"></script>        
+        <script type="text/javascript">
+            $(function() {
+                $('.demo-auto').colorpicker();
+            });
+        </script>
+    </body>
+</html>
