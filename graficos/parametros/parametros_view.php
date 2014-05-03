@@ -91,15 +91,15 @@ font-size: 24px;
                     <ul class="bs-glyphicons-list ">
                         <?php if (is_array($slot)) : ?>
                             <?php foreach ($slot as $array) : ?>
-                            <li class="text-center" data-toggle="modal" data-target="#myModal">
-                                <div class="slot-name">Hole Depth</div>
-                                <div class="slot-code">0110</div>
-                                <div class="slot-value">13647.87</div>
+                            <li id="slot_<?php echo $array['slot'] ?>"  class="text-center" data-toggle="modal" data-target="#myModal">
+                                <div class="slot-name"><?php echo $array['name'] ?></div>
+                                <div class="slot-code"><?php echo $array['slot'] ?></div>
+                                <div class="slot-value"><?php echo $array['valor'] ?></div>
                                 <div class="slot-code">feed</div>
                                 <div class="">
-                                    <div class="pull-left">0</div>
+                                    <div class="pull-left"><?php echo $array['min'] ?></div>
 
-                                    <div class="pull-right">15000</div>
+                                    <div class="pull-right"><?php echo $array['max'] ?></div>
                                 </div>
                             </li>
                             <?php endforeach; ?>
