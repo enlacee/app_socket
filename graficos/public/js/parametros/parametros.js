@@ -6,10 +6,9 @@ $(function(){
     
     var vars = {
         //contenedor_opciones: '#adminEstaContentBox',
-        url : 'parametros.php',
+        url : 'parametros.php',        
         contentSlot : "#contentSlot",
         btn_save : '#btnSave',
-        btn_cancel: '#btnCancel',
         
         key : '#key',
         param_parameter_antes : '#parameter_antes',
@@ -17,23 +16,29 @@ $(function(){
         param_alarMin : '#alarmMin',
         param_alarMax : '#alarmMax',
         param_background: '#background',
-        //data : 
-        //form_opcion: '#modalOpcion',
+
+        // variables select
+        order : 'DESC',
+        limit : 40,
+        renderNumber : 30,
     };
 
     var Slot = {
+        statusTimer : false,
         data : [],
         init : function() {
             console.log("init SLOT");
             this.loadDataInicial();
             
-            this.save();
+            this.btnSave();
+
+            //this.loadDataSecuencial();
         },
         // 01 : Carga datos inicial configuracion por defecto
         loadDataInicial: function() {
             $.ajax({
                 url: vars.url,
-                data : {op : 'lista_parametros', type : 'json', order : 'DESC', limit : 5},
+                data : {op : 'lista_parametros', type : 'json', order : vars.order, limit : vars.limit},
                 type: 'GET',
                 dataType: 'json',
                 success: function (data){
@@ -52,16 +57,67 @@ $(function(){
                     });
                     
                     Slot.render();
+
+                    // Iniciar Timer
+                    Slot.statusTimer = true;
+                    Slot.loadDataSecuencial();
+
                 }
             });
 
+            // LISTEN CLOSE status || Falta manejar es boton Escape.
+            $(".close, #btnClose, #myModal").unbind();
+            $(".close, #btnClose, #myModal").bind('click', function() {
+                Slot.statusTimer = true;
+            });
+        },
+        // 03 : load data if statusTimer = true
+        loadDataSecuencial : function() {
+            var status = Slot.statusTimer;
+            if (status) {
+                setTimeout(function() {
+                    console.log("time", "TIMER = " + status);
+                    //alert("antes de UPDATE DATABASE");
+                    Slot.loadDataServer();
+                    Slot.loadDataSecuencial();
+                }, 1000);
+            } else {
+                setTimeout(function() {
+                    console.log("time", "TIMER = " + status);
+                    Slot.loadDataSecuencial();
+                }, 1000);
+            }
+        },
+        loadDataServer : function() {
+            $.ajax({
+                url: vars.url,
+                data : {op : 'lista_parametros', type : 'json', order : vars.order, limit : vars.limit},
+                type: 'GET',
+                dataType: 'json',
+                success: function (rs){                    
+                    $.each(rs, function(key, value) {
+                        var data = Slot.data;
+                        for(var i = 0; i < data.length; i++) {
+                            // Encuentra  y actualiza
+                            if(value.slot == data[i].slot) {
+                                //console.log("encontro y actualizara", value.slot,  value.valor);
+                                data[i].valor = value.valor;
+                                data[i].min = value.min;
+                                data[i].max = value.max;
+                                break;
+                            }
+                        }
+                    });
+                    Slot.render();
+                }
+            });            
 
         },
         // 02 : render vista
         render: function() {
-                console.log("-------------- print slots atuales RENDER ------------");
-                console.log(" Slot.data ",Slot.data);
-                console.log("-------------- print slots atuales RENDER ------------")
+            //console.log("-------------- print slots atuales RENDER ------------");
+            //console.log(" Slot.data ",Slot.data);
+            //console.log("-------------- print slots atuales RENDER ------------")
 
             var data = Slot.data;
 /*            var html = '';
@@ -78,12 +134,13 @@ $(function(){
             html += '</li>';
             html += '';
 */
-            var countData = data.length;            
+            var countData = (data.length < vars.renderNumber) ? data.length : vars.renderNumber;  //data.length;            
             if (countData > 0) {
                 $(contentSlot).html('');
                 for(var i = 0; i < countData; i++) {
                     var html = '';
-                    html += '<li id="'+data[i].key+'" data-slot="'+data[i].slot+'" class="text-center slot" data-toggle="modal" data-target="#myModal">';
+                    var style = this.ayuda_renderColor(data[i]);
+                    html += '<li id="'+data[i].key+'" data-slot="'+data[i].slot+'" class="text-center slot" data-toggle="modal" data-target="#myModal" '+style+' >';
                     html += '<div class="slot-name">'+data[i].name+'</div>';
                     html += '<div class="slot-code">'+data[i].slot+'</div>';
                     html += '<div class="slot-value">'+data[i].valor+'</div>';
@@ -109,6 +166,7 @@ $(function(){
                 $(vars.key).val($(this).attr('id'));
                 $(vars.param_parameter_antes).val($(this).attr('data-slot'));
                 $(vars.param_parameter).val($(this).attr('data-slot'));
+                Slot.statusTimer = false;
             });            
             
         },
@@ -139,29 +197,30 @@ $(function(){
             $(vars.param_alarMax).val('');
             $(vars.param_background).val('');
         },        
-        save: function() {
+        btnSave : function() {
             $(vars.btn_save).unbind();
             $(vars.btn_save).bind('click', function() {         
                 var array = new Array();
                 array.key = $(vars.key).val();
                 array.slot = $(vars.param_parameter).val();
-
-                //array.name = $(vars.param_parameter).text();
-
+                array.name = $(vars.param_parameter+" option:selected").text();
                 array.min = $(vars.param_alarMin).val();
                 array.max = $(vars.param_alarMax).val();
                 array.background = $(vars.param_background).val();
                 //console.log(this);                
                 
                 // Slot.data.push(array); NO SE AGREGA
-                Slot.ayuda_buscarSlot(array, array.key);
+                Slot.statusTimer = false;
+                Slot.ayuda_buscarSlot(array);
+                Slot.statusTimer = true;            
                 console.log("-------------- print slots atuales ------------");
                 console.log(" Slot.data ",Slot.data);
                 console.log("-------------- print slots atuales ------------")
-                Slot.clearForm();
-                Slot.render();
+                Slot.clearForm();                
+                //Slot.render();
             });
         },
+
         ayuda_buscarSlot : function(slot) {
             var data = this.data;
             var flag = false;
@@ -173,13 +232,39 @@ $(function(){
                     data[i].slot = slot.slot;
                     data[i].min = (slot.min) ? slot.min : data[i].min;
                     data[i].max = (slot.max) ? slot.max : data[i].max;
-                    data[i].background = slot.background;
+                    data[i].background = (slot.background) ? slot.background : data[i].background;
                     flag = true;
                     break;
                 }
             }
-          return flag;
+            //console.log(data);
+            //console.lo(holamundo);
+            //this.data = data;
+            return flag;
         },
+        // OJO TESTEAR LOS CAMBIOS
+        ayuda_timer : function() { // cada 1 s
+
+            // 01 = Busca por : slot.slot si encuentra actualiza SOLO : slot.valor
+
+
+            // 02 = pregunta tambien por valor minimo y maximo 
+
+        },
+        ayuda_renderColor : function (slot) {
+            var htmlStyle = '';
+            if (slot.valor >  slot.min && slot.valor > slot.max) {
+                console.log("color ==", slot.background);
+                var color = (slot.background) ? slot.background : 'red';
+                htmlStyle += ' style="background-color: '+color+';" ';
+                htmlStyle += ' style="background-color: red;" ';                
+            } else {
+                //htmlStyle += ' style="background-color: gray;" ';
+            }           
+
+            return htmlStyle
+        }
+
 
 
 

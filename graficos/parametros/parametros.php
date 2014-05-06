@@ -15,9 +15,10 @@ if ($op == 'listaCombo_json') {
 } else if ($op == 'lista_parametros') {
     $order = (!empty($_REQUEST['order'])) ? $_REQUEST['order'] : 'asc';
     $limit = (!empty($_REQUEST['limit'])) ? $_REQUEST['limit'] : 30;
+    $parameter = (!empty($_REQUEST['parameter'])) ? $_REQUEST['parameter'] : '';
     
     if ($type == 'json') {
-        $data = listParameter($order, $limit);
+        $data = listParameter($parameter, $order, $limit);
         echo json_encode($data);
     } else {
         return $data;
@@ -51,22 +52,23 @@ function listSlotComboBox($order="ASC")
  * @param type $limit
  * @return type
  */
-function listParameter($order="ASC", $limit = 30)
+function listParameter($parameter, $order="ASC", $limit = 30)
 {
     $myPdo = MyPdo::getInstance();
     $conn  = $myPdo->getConnect();
     //$stmt = $conn->prepare("SELECT * FROM slots order by name asc limit $limit");
+
     $sql = " 
     SELECT 
     slots.slot,
     slots.name,
     slots.min,
-    slots.max,    
+    slots.max,  
     (SELECT datos.valor FROM datos WHERE datos.slot = slots.slot ORDER BY datos.fecha DESC limit 1) as valor
     FROM slots    
     ORDER BY slots.name $order
     LIMIT $limit";  
-            
+
     $stmt = $conn->prepare($sql);    
     $stmt->execute();
     $rs = $stmt->fetchAll();

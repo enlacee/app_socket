@@ -1,9 +1,4 @@
-<?php
-require_once 'parametros.php';
-$slot = listParameter("desc",4);
-//var_dump($slot); exit;
 
-?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -35,16 +30,17 @@ font-size: 12px;*/
 }    
 .bs-glyphicons li {
 float: left;
-width: 25%;
+width: 23%;
 min-width: 140px;
 height: 115px;
 padding: 10px;
 /*font-size: 10px;*/
 line-height: 1.4;
 /*text-align: center;*/
-border: 1px solid red;
+border: 1px solid silver;
 background-color: #f9f9f9;
 font-weight: bold;
+margin: 2px;
 }
 /*
 .bs-glyphicons li:hover {
@@ -98,7 +94,14 @@ font-size: 24px;
                 </div>   
                 
                 
-                
+                <!--<div class="bs-glyphicons">
+                    <ul id ="contentSlotxxx" class="bs-glyphicons-list">
+                        <li>cuadro 2</li>
+                        <li>cuadro 3</li>
+                        <li>cuadro 4</li>
+                        <li>cuadro 5</li>
+                    </ul>
+                </div>-->                 
                 
                 
 
@@ -129,7 +132,7 @@ font-size: 24px;
                         <div class="row form-group">
                             <div class="col-md-4"><label>Alarm Min</label></div>
                             <div class="col-md-6">
-                                <input type="text" id="alarmMin" value="0" class="form-control" placeholder="0">
+                                <input type="text" id="alarmMin" value="" class="form-control" placeholder="0">
                             </div>
                         </div>
                         
@@ -150,11 +153,16 @@ font-size: 24px;
                                 </div>
                             </div>
                         </div>
+
+                        <div class="row form-group"></div>
+                        <div class="row form-group"></div>
+                        <div class="row form-group"></div>
+                        <div class="row form-group"></div>                        
                         
                     </div>
-                    <div class="modal-footer">
+                    <div class="modal-footer style="float: left">
                         <button id ="btnSave" type="button" class="btn btn-default" data-dismiss="modal">Save</button>
-                        <button id ="btnCancel" type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <button id ="btnClose" type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                     </div>
                 </div>
             </div>
