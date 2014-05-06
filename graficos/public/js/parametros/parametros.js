@@ -20,7 +20,7 @@ $(function(){
         // variables select
         order : 'DESC',
         limit : 40,
-        renderNumber : 30,
+        renderNumber : 16,
     };
 
     var Slot = {
@@ -46,6 +46,7 @@ $(function(){
                     $.each(data, function(key, value) {
                         var array = new Array();
                         array.key = key;
+                        array.local = false;
                         array.slot = value.slot;
                         array.name = value.name;
                         array.min = value.min;
@@ -101,9 +102,14 @@ $(function(){
                             // Encuentra  y actualiza
                             if(value.slot == data[i].slot) {
                                 //console.log("encontro y actualizara", value.slot,  value.valor);
+                                //console.log("data.local "+value.slot, data.local);
                                 data[i].valor = value.valor;
-                                data[i].min = value.min;
-                                data[i].max = value.max;
+                                if (data[i].local == true) { // DATA EN LOCAL -----> NO SE ACTUALIZA
+
+                                } else { // ACTUALIZAR
+                                    data[i].min = value.min;
+                                    data[i].max = value.max;
+                                }
                                 break;
                             }
                         }
@@ -161,8 +167,7 @@ $(function(){
 
             // LISTENER DESPUES DE CREAR LOS OBJETOS
             $(".slot").unbind();
-            $(".slot").bind('click',function() {
-                //console.log(".slot");  console.log("slottt ID", $(this).attr('id'));
+            $(".slot").bind('click',function() {                
                 $(vars.key).val($(this).attr('id'));
                 $(vars.param_parameter_antes).val($(this).attr('data-slot'));
                 $(vars.param_parameter).val($(this).attr('data-slot'));
@@ -202,6 +207,7 @@ $(function(){
             $(vars.btn_save).bind('click', function() {         
                 var array = new Array();
                 array.key = $(vars.key).val();
+                array.local = true;
                 array.slot = $(vars.param_parameter).val();
                 array.name = $(vars.param_parameter+" option:selected").text();
                 array.min = $(vars.param_alarMin).val();
@@ -213,9 +219,9 @@ $(function(){
                 Slot.statusTimer = false;
                 Slot.ayuda_buscarSlot(array);
                 Slot.statusTimer = true;            
-                console.log("-------------- print slots atuales ------------");
-                console.log(" Slot.data ",Slot.data);
-                console.log("-------------- print slots atuales ------------")
+                //console.log("-------------- print slots atuales ------------");
+                //console.log(" Slot.data ",Slot.data);
+                //console.log("-------------- print slots atuales ------------")
                 Slot.clearForm();                
                 //Slot.render();
             });
@@ -228,36 +234,37 @@ $(function(){
             for(var i = 0; i < data.length; i++) {
                 // Encuentra  y actualiza
                 if (data[i].key == slot.key) {
+                    data[i].local = slot.local;
                     data[i].name = slot.name;
                     data[i].slot = slot.slot;
-                    data[i].min = (slot.min) ? slot.min : data[i].min;
-                    data[i].max = (slot.max) ? slot.max : data[i].max;
-                    data[i].background = (slot.background) ? slot.background : data[i].background;
+                    data[i].min = slot.min; //(slot.min) ? slot.min : data[i].min;
+                    data[i].max = slot.max;  //(slot.max) ? slot.max : data[i].max;
+                    data[i].background = slot.background; //(slot.background) ? slot.background : data[i].background;
                     flag = true;
                     break;
                 }
             }
-            //console.log(data);
-            //console.lo(holamundo);
-            //this.data = data;
+            this.data = data;
             return flag;
         },
-        // OJO TESTEAR LOS CAMBIOS
-        ayuda_timer : function() { // cada 1 s
-
-            // 01 = Busca por : slot.slot si encuentra actualiza SOLO : slot.valor
-
-
-            // 02 = pregunta tambien por valor minimo y maximo 
-
-        },
         ayuda_renderColor : function (slot) {
+
             var htmlStyle = '';
-            if (slot.valor >  slot.min && slot.valor > slot.max) {
-                console.log("color ==", slot.background);
-                var color = (slot.background) ? slot.background : 'red';
-                htmlStyle += ' style="background-color: '+color+';" ';
-                htmlStyle += ' style="background-color: red;" ';                
+            /*if (slot.slot=="0140") {
+                console.log("0140", slot);
+            }*/
+
+            //numeros
+            //slot.valor = parseInt(slot.valor);
+            //slot.min = parseInt(slot.min) || 0;
+            //slot.max = parseInt(slot.max);
+
+            if ( slot.valor >  slot.min ) {
+                if (slot.valor > slot.max) {
+                    var color = (slot.background) ? slot.background : 'red';
+                    htmlStyle += ' style="background-color: '+color+';" ';                    
+                }
+              
             } else {
                 //htmlStyle += ' style="background-color: gray;" ';
             }           

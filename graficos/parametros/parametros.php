@@ -13,12 +13,12 @@ if ($op == 'listaCombo_json') {
     listSlotComboBox();
     
 } else if ($op == 'lista_parametros') {
-    $order = (!empty($_REQUEST['order'])) ? $_REQUEST['order'] : 'asc';
-    $limit = (!empty($_REQUEST['limit'])) ? $_REQUEST['limit'] : 30;
-    $parameter = (!empty($_REQUEST['parameter'])) ? $_REQUEST['parameter'] : '';
+    $order = (!empty($_REQUEST['order'])) ? $_REQUEST['order'] : '';
+    $limit = (!empty($_REQUEST['limit'])) ? $_REQUEST['limit'] : '';
+    $idSlot = (!empty($_REQUEST['idSlot'])) ? $_REQUEST['idSlot'] : '';   
     
     if ($type == 'json') {
-        $data = listParameter($parameter, $order, $limit);
+        $data = listParameter($order, $limit, $idSlot);
         echo json_encode($data);
     } else {
         return $data;
@@ -52,7 +52,7 @@ function listSlotComboBox($order="ASC")
  * @param type $limit
  * @return type
  */
-function listParameter($parameter, $order="ASC", $limit = 30)
+function listParameter($order="ASC", $limit = 50, $idSlot='')
 {
     $myPdo = MyPdo::getInstance();
     $conn  = $myPdo->getConnect();
@@ -65,9 +65,19 @@ function listParameter($parameter, $order="ASC", $limit = 30)
     slots.min,
     slots.max,  
     (SELECT datos.valor FROM datos WHERE datos.slot = slots.slot ORDER BY datos.fecha DESC limit 1) as valor
-    FROM slots    
-    ORDER BY slots.name $order
-    LIMIT $limit";  
+    FROM slots ";
+    if (!empty($idSlot)) {
+        $sql .= "WHERE slots.slot = $idSlot ";    
+    }
+    if (!empty($order)) {
+        $sql .= "ORDER BY slots.name $order ";    
+    }    
+    
+    
+    if (!empty($limit) ) {
+        $sql .= "LIMIT $limit ";  
+    }
+    
 
     $stmt = $conn->prepare($sql);    
     $stmt->execute();

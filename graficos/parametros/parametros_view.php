@@ -177,7 +177,7 @@ font-size: 24px;
             $(function() {
                 $('.demo-auto').colorpicker({
                     //format: 'rgba', // force this forma
-                }).on('changeColor', function(ev) { console.log("log : "+ev.color.toHex());
+                }).on('changeColor', function(ev) { //console.log("log : "+ev.color.toHex());
                     //bodyStyle.backgroundColor = ev.color.toHex();
                 });
             });
