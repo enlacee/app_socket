@@ -4,10 +4,37 @@
  */
 
 $op = (!empty($_REQUEST['op'])) ? $_REQUEST['op'] : '';
+$type = (!empty($_REQUEST['type'])) ? $_REQUEST['type'] : '';
+
 require_once '../../vendor/class/MyPdo.php';    
 
 
-if($op == 'lista_json') {
+if ($op == 'listaCombo_json') {
+    listSlotComboBox();
+    
+} else if ($op == 'lista_parametros') {
+    $order = (!empty($_REQUEST['order'])) ? $_REQUEST['order'] : 'asc';
+    $limit = (!empty($_REQUEST['limit'])) ? $_REQUEST['limit'] : 30;
+    
+    if ($type == 'json') {
+        $data = listParameter($order, $limit);
+        echo json_encode($data);
+    } else {
+        return $data;
+    }
+
+} else {
+    //echo "...";  
+} 
+
+
+
+//------------------------------------------------------------------------------
+/**
+* Lista para cargar el combo box (Modal)
+*/
+function listSlotComboBox($order="ASC") 
+{
     $myPdo = MyPdo::getInstance();
     $conn  = $myPdo->getConnect();
 
@@ -15,23 +42,16 @@ if($op == 'lista_json') {
     $stmt->execute();
     $rs = $stmt->fetchAll();
     $conn = NULL;
-
-    echo json_encode($rs);    
-    
-}  else {
-   //echo "...";
+    echo json_encode($rs);
 }
 
-
-
-//------------------------------------------------------------------------------
 
 /**
  * Lista slot con datos con 2 dia de intervalo
  * @param type $limit
  * @return type
  */
-function view_listSlot($limit = 30)
+function listParameter($order="ASC", $limit = 30)
 {
     $myPdo = MyPdo::getInstance();
     $conn  = $myPdo->getConnect();
@@ -41,17 +61,13 @@ function view_listSlot($limit = 30)
     slots.slot,
     slots.name,
     slots.min,
-    slots.max,
-    AVG(datos.valor) valor
-
-    FROM slots
-    LEFT JOIN datos ON slots.slot = datos.slot
-    WHERE DATE(datos.fecha) < NOW()
-    AND DATE(datos.fecha) > DATE_SUB(NOW(), INTERVAL 2 DAY) -- TIEMPO FILTRO 1 MINUTE  (PROMEDIO DE 1 MIN O 1 HORA)
-    GROUP BY slots.slot
-    LIMIT $limit";            
-    $stmt = $conn->prepare($sql);
-    
+    slots.max,    
+    (SELECT datos.valor FROM datos WHERE datos.slot = slots.slot ORDER BY datos.fecha DESC limit 1) as valor
+    FROM slots    
+    ORDER BY slots.name $order
+    LIMIT $limit";  
+            
+    $stmt = $conn->prepare($sql);    
     $stmt->execute();
     $rs = $stmt->fetchAll();
     $conn = NULL;    

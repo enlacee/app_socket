@@ -1,6 +1,8 @@
 <?php
 require_once 'parametros.php';
-$slot = view_listSlot(2);
+$slot = listParameter("desc",4);
+//var_dump($slot); exit;
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -86,26 +88,8 @@ font-size: 24px;
                 <!--<div class="page-header">
                   <h2>Live Variable Data By Rig <small>DDSLP</small></h2>
                 </div>-->
-
                 <div class="bs-glyphicons">
-                    <ul class="bs-glyphicons-list ">
-                        <?php if (is_array($slot)) : ?>
-                            <?php foreach ($slot as $array) : ?>
-                            <li id="slot_<?php echo $array['slot'] ?>"  class="text-center" data-toggle="modal" data-target="#myModal">
-                                <div class="slot-name"><?php echo $array['name'] ?></div>
-                                <div class="slot-code"><?php echo $array['slot'] ?></div>
-                                <div class="slot-value"><?php echo $array['valor'] ?></div>
-                                <div class="slot-code">feed</div>
-                                <div class="">
-                                    <div class="pull-left"><?php echo $array['min'] ?></div>
-
-                                    <div class="pull-right"><?php echo $array['max'] ?></div>
-                                </div>
-                            </li>
-                            <?php endforeach; ?>
-                        <?php else: ?>
-                            <li> no existen datos</li>                                
-                        <?php endif; ?>
+                    <ul id ="contentSlot" class="bs-glyphicons-list">
                         <!--<li>cuadro 2</li>
                         <li>cuadro 3</li>
                         <li>cuadro 4</li>
@@ -128,10 +112,12 @@ font-size: 24px;
                 <div class="modal-content col-md-12">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                        <h4 class="modal-title" id="myModalLabel">In a Modal</h4>
+                        <h4 class="modal-title" id="myModalLabel">Select Parameter in Modal</h4>
                     </div>
                     <div class="modal-body">
                         <div class="row form-group">
+                            <input type="hidden" id="key" name ="key" value ="">
+                            <input type="hidden" id="parameter_antes" name ="parameter_antes" value ="">
                             <div class="col-md-4"><label>Select a Parameter</label></div>
                             <div class="col-md-6">
                                 <select name="parameter" id ="parameter" class="form-control input-sm">
@@ -143,7 +129,7 @@ font-size: 24px;
                         <div class="row form-group">
                             <div class="col-md-4"><label>Alarm Min</label></div>
                             <div class="col-md-6">
-                                <input type="text" id="alarmMin" value="" class="form-control" placeholder="0">
+                                <input type="text" id="alarmMin" value="0" class="form-control" placeholder="0">
                             </div>
                         </div>
                         
