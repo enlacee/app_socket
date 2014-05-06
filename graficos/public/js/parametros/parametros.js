@@ -80,12 +80,12 @@ $(function(){
                     //alert("antes de UPDATE DATABASE");
                     Slot.loadDataServer();
                     Slot.loadDataSecuencial();
-                }, 1000);
+                }, 5000);
             } else {
                 setTimeout(function() {
                     console.log("time", "TIMER = " + status);
                     Slot.loadDataSecuencial();
-                }, 1000);
+                }, 5000);
             }
         },
         loadDataServer : function() {
