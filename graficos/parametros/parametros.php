@@ -23,6 +23,11 @@ if ($op == 'listaCombo_json') {
     } else {
         return $data;
     }
+} else if($op == 'update_parametros') {
+    $idSlot = (!empty($_REQUEST['idSlot'])) ? $_REQUEST['idSlot'] : '';
+    $min = (!empty($_REQUEST['min'])) ? $_REQUEST['min'] : '';
+    $max = (!empty($_REQUEST['max'])) ? $_REQUEST['max'] : '';      
+        updateParameter($idSlot, $min, $max);
 
 } else {
     //echo "...";  
@@ -84,4 +89,15 @@ function listParameter($order="ASC", $limit = 50, $idSlot='')
     $rs = $stmt->fetchAll();
     $conn = NULL;    
     return $rs;
+}
+
+function updateParameter($idSlot, $min='', $max='')
+{
+    $myPdo = MyPdo::getInstance();
+    $conn  = $myPdo->getConnect();
+    $sql = "UPDATE slots SET min = '$min', max = '$max' WHERE slot = '$idSlot' ";
+
+    $sqlString = $sql;    
+    $stmt = $conn->prepare($sqlString);    
+    $stmt->execute();
 }

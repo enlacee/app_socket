@@ -45,8 +45,7 @@ $(function(){
                     var key = 0;
                     $.each(data, function(key, value) {
                         var array = new Array();
-                        array.key = key;
-                        array.local = false;
+                        array.key = key;                        
                         array.slot = value.slot;
                         array.name = value.name;
                         array.min = value.min;
@@ -101,16 +100,11 @@ $(function(){
                         for(var i = 0; i < data.length; i++) {
                             // Encuentra  y actualiza
                             if(value.slot == data[i].slot) {
-                                //console.log("encontro y actualizara", value.slot,  value.valor);
-                                //console.log("data.local "+value.slot, data.local);
+                                //console.log("encontro y actualizara", value.slot,  value.valor);                                
                                 data[i].valor = value.valor;
-                                if (data[i].local == true) { // DATA EN LOCAL -----> NO SE ACTUALIZA
-
-                                } else { // ACTUALIZAR
-                                    data[i].min = value.min;
-                                    data[i].max = value.max;
-                                }
-                                break;
+                                data[i].min = value.min;
+                                data[i].max = value.max;
+                                //break;
                             }
                         }
                     });
@@ -206,24 +200,20 @@ $(function(){
             $(vars.btn_save).unbind();
             $(vars.btn_save).bind('click', function() {         
                 var array = new Array();
-                array.key = $(vars.key).val();
-                array.local = true;
+                array.key = $(vars.key).val();                
                 array.slot = $(vars.param_parameter).val();
                 array.name = $(vars.param_parameter+" option:selected").text();
-                array.min = $(vars.param_alarMin).val();
-                array.max = $(vars.param_alarMax).val();
+                array.min = $(vars.param_alarMin).val() || 0;
+                array.max = $(vars.param_alarMax).val() || 0;
                 array.background = $(vars.param_background).val();
-                //console.log(this);                
-                
-                // Slot.data.push(array); NO SE AGREGA
+
                 Slot.statusTimer = false;
                 Slot.ayuda_buscarSlot(array);
                 Slot.statusTimer = true;            
                 //console.log("-------------- print slots atuales ------------");
                 //console.log(" Slot.data ",Slot.data);
                 //console.log("-------------- print slots atuales ------------")
-                Slot.clearForm();                
-                //Slot.render();
+                Slot.clearForm();
             });
         },
 
@@ -233,19 +223,34 @@ $(function(){
             // buscar y actualizar
             for(var i = 0; i < data.length; i++) {
                 // Encuentra  y actualiza
-                if (data[i].key == slot.key) {
-                    data[i].local = slot.local;
+                if (data[i].key == slot.key) {                    
                     data[i].name = slot.name;
                     data[i].slot = slot.slot;
                     data[i].min = slot.min; //(slot.min) ? slot.min : data[i].min;
                     data[i].max = slot.max;  //(slot.max) ? slot.max : data[i].max;
                     data[i].background = slot.background; //(slot.background) ? slot.background : data[i].background;
                     flag = true;
+                    // update en DB
+                    if(slot.min !== 0 && slot.max !== 0){
+                        Slot.ayuda_updateSlot(data[i]);    
+                    }
+                    
                     break;
                 }
             }
             this.data = data;
             return flag;
+        },
+        ayuda_updateSlot : function(slot){
+            $.ajax({
+                url: vars.url,
+                data : {op : 'update_parametros', idSlot : slot.slot, min:slot.min ,max:slot.max},
+                type: 'GET',
+                dataType: 'json',
+                success: function (data){
+
+                }
+            });
         },
         ayuda_renderColor : function (slot) {
 
