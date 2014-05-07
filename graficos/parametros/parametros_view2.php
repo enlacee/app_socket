@@ -181,7 +181,7 @@ $(function() {
                 data : {op : 'listaPorSlot', slot : '1212'},
                 type: 'GET',
                 dataType: 'json',
-                beforeSend : function () {
+                always : function () {
                     $("#slot-value").html("beforeSend");
                     console.log("beforeSend");
                 },
