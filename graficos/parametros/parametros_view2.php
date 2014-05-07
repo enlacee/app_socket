@@ -181,7 +181,12 @@ $(function() {
                 data : {op : 'listaPorSlot', slot : '1212'},
                 type: 'GET',
                 dataType: 'json',
-                success: function (rs){
+                beforeSend : function () {
+                    $("#slot-value").html("beforeSend");
+                    console.log("beforeSend");
+                }
+                cache :false,
+                done: function (rs){
                     //var node = $("#0").children().get(0);                        
                     if (rs[0].valor){
                         console.log("slot-value: 1212  : "+ rs[0].valor);
@@ -189,6 +194,10 @@ $(function() {
                     }else {
                         console.log("not data..");
                     }                    
+                },
+                fail : function {
+                    $("#slot-value").html("fail");
+                    console.log("fail");
                 }
             }); 
             
