@@ -184,7 +184,7 @@ $(function() {
                 beforeSend : function () {
                     $("#slot-value").html("beforeSend");
                     console.log("beforeSend");
-                }
+                },
                 cache :false,
                 done: function (rs){
                     //var node = $("#0").children().get(0);                        
