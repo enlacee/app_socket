@@ -195,7 +195,7 @@ $(function() {
                         console.log("not data..");
                     }                    
                 },
-                fail : function {
+                fail : function() {
                     $("#slot-value").html("fail");
                     console.log("fail");
                 }
