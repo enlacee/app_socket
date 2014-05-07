@@ -13,7 +13,7 @@ if ($op == 'listaCombo_json') {
     listSlotComboBox();
     
 } else if ($op == 'lista_parametros') {
-    $order = (!empty($_REQUEST['order'])) ? $_REQUEST['order'] : '';
+    /*$order = (!empty($_REQUEST['order'])) ? $_REQUEST['order'] : '';
     $limit = (!empty($_REQUEST['limit'])) ? $_REQUEST['limit'] : '';
     $idSlot = (!empty($_REQUEST['idSlot'])) ? $_REQUEST['idSlot'] : '';   
     
@@ -22,19 +22,35 @@ if ($op == 'listaCombo_json') {
         echo json_encode($data);
     } else {
         return $data;
-    }
+    }*/
 } else if($op == 'update_parametros') {
-    $idSlot = (!empty($_REQUEST['idSlot'])) ? $_REQUEST['idSlot'] : '';
+    /*$idSlot = (!empty($_REQUEST['idSlot'])) ? $_REQUEST['idSlot'] : '';
     $min = (!empty($_REQUEST['min'])) ? $_REQUEST['min'] : '';
     $max = (!empty($_REQUEST['max'])) ? $_REQUEST['max'] : '';      
-        updateParameter($idSlot, $min, $max);
+        updateParameter($idSlot, $min, $max);*/
 
+        
+} else if($op == 'listaPorSlot') {
+    $idSlot = (!empty($_REQUEST['slot'])) ? $_REQUEST['slot'] : '';
+    //$max = (!empty($_REQUEST['max'])) ? $_REQUEST['max'] : '';     
+    listaPorSlot($idSlot);
 } else {
     //echo "...";  
 } 
 
-
-
+function listaPorSlot($slot) 
+{
+    $myPdo = MyPdo::getInstance();
+    $conn  = $myPdo->getConnect();
+    $sql = "select valor, fecha from datos where slot = ".$slot." ORDER BY id_lectura DESC LIMIT 1";
+    $sql_string = $sql;
+    $stmt = $conn->prepare($sql_string);
+    
+    $stmt->execute();
+    $rs = $stmt->fetchAll();
+    $conn = NULL;
+    echo json_encode($rs);
+}
 //------------------------------------------------------------------------------
 /**
 * Lista para cargar el combo box (Modal)
