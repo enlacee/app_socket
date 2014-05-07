@@ -173,7 +173,7 @@ $(function() {
 });
         </script>
         <script type="text/javascript">
-        //loadDataSecuencial();
+        loadDataSecuencial();
               
         function loadDataSecuencial() {
             $.ajax({
