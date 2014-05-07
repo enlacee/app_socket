@@ -118,7 +118,18 @@ font-size: 24px;
                                 <div class="pull-left">0</div>
                                 <div class="pull-right">10000</div>                                    
                             </div>
-                        </li>                              
+                        </li>
+                        
+                        <li id="3" data-slot="0116" class="text-center slot" data-toggle="modal" data-target="#myModal">
+                            <div class="slot-name">STROKE 1</div>
+                            <div class="slot-code">0123</div>
+                            <div class="slot-value" id="slot-value3">333333</div>
+                            <div class="slot-code">feed</div>
+                            <div class="">
+                                <div class="pull-left">0</div>
+                                <div class="pull-right">10000</div>                                    
+                            </div>
+                        </li>                        
                         
                         
                     </ul>
@@ -201,6 +212,7 @@ $(function() {
         loadDataSecuencial();
         loadDataSecuencial2();
         loadDataSecuencial3();
+        loadDataSecuencial4();
               
         function loadDataSecuencial() {
             $.ajax({
@@ -267,6 +279,28 @@ $(function() {
             setTimeout(function() {
                loadDataSecuencial3(); 
             }, 1003);
+        }  
+        
+        function loadDataSecuencial4() {
+            $.ajax({
+                url: 'parametros.php',
+                data : {op : 'listaPorSlot', slot : '0123'},
+                type: 'GET',
+                dataType: 'json',
+                success: function (rs){
+                    //var node = $("#0").children().get(0);                        
+                    if (rs[0].valor){
+                        console.log("slot-value3: 0123  : "+ rs[0].valor);
+                        $("#slot-value3").html(""+rs[0].valor);
+                    }else {
+                        console.log("not data..");
+                    }                    
+                }
+            }); 
+            
+            setTimeout(function() {
+               loadDataSecuencial4(); 
+            }, 1004);
         }        
         
         </script>
