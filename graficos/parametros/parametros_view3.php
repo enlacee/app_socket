@@ -200,6 +200,7 @@ $(function() {
         <script type="text/javascript">
         loadDataSecuencial();
         loadDataSecuencial2();
+        loadDataSecuencial3();
               
         function loadDataSecuencial() {
             $.ajax({
