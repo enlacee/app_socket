@@ -160,7 +160,7 @@ font-size: 24px;
                         <div class="row form-group"></div>                        
                         
                     </div>
-                    <div class="modal-footer style="float: left">
+                    <div class="modal-footer >
                         <button id ="btnSave" type="button" class="btn btn-default" data-dismiss="modal">Save</button>
                         <button id ="btnClose" type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                     </div>
