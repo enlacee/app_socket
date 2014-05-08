@@ -147,8 +147,8 @@ font-size: 24px;
                     </div>
                     <div class="modal-body">
                         <div class="row form-group">
-                            <input type="text" id="key" name ="key" value ="">
-                            <input type="text" id="parameter_antes" name ="parameter_antes" value ="">
+                            <input type="hidden" id="key" name ="key" value ="">
+                            <input type="hidden" id="parameter_antes" name ="parameter_antes" value ="">
                             <div class="col-md-4"><label>Select a Parameter</label></div>
                             <div class="col-md-6">
                                 <select name="parameter" id ="parameter" class="form-control input-sm">
