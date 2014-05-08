@@ -240,7 +240,7 @@ $(function() {
         function loadDataSecuencial2() {
             $.ajax({
                 url: 'parametros.php',
-                data : {op : 'listaPorSlot', slot : '0108'},
+                data : {op : 'listaPorSlotCero', slot : '0108'},
                 type: 'GET',
                 dataType: 'json',
                 success: function (rs){
@@ -262,7 +262,7 @@ $(function() {
         function loadDataSecuencial3() {
             $.ajax({
                 url: 'parametros.php',
-                data : {op : 'listaPorSlot', slot : '0113'},
+                data : {op : 'listaPorSlotCero', slot : '0113'},
                 type: 'GET',
                 dataType: 'json',
                 success: function (rs){
@@ -284,7 +284,7 @@ $(function() {
         function loadDataSecuencial4() {
             $.ajax({
                 url: 'parametros.php',
-                data : {op : 'listaPorSlot', slot : '0123'},
+                data : {op : 'listaPorSlotCero', slot : '0123'},
                 type: 'GET',
                 dataType: 'json',
                 success: function (rs){
