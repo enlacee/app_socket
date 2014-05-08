@@ -86,7 +86,7 @@ font-size: 24px;
                 </div>-->
                 <div class="bs-glyphicons">
                     <ul id ="contentSlot" class="bs-glyphicons-list">
-                        <li id="1" data-slot="0116" class="text-center slot" data-toggle="modal" data-target="#myModal">
+                        <li id="1" data-slot="1212" class="text-center slot" data-toggle="modal" data-target="#myModal">
                             <div class="slot-name">C1</div>
                             <div class="slot-code">1212</div>
                             <div class="slot-value" id="slot-value">11111</div>
@@ -97,7 +97,7 @@ font-size: 24px;
                             </div>
                         </li>
 
-                        <li id="2" data-slot="0116" class="text-center slot" data-toggle="modal" data-target="#myModal">
+                        <li id="2" data-slot="0108" class="text-center slot" data-toggle="modal" data-target="#myModal">
                             <div class="slot-name">TOTAL DEPTH</div>
                             <div class="slot-code">0108</div>
                             <div class="slot-value" id="slot-value">11111</div>
@@ -108,7 +108,7 @@ font-size: 24px;
                             </div>
                         </li>
 
-                        <li id="3" data-slot="0116" class="text-center slot" data-toggle="modal" data-target="#myModal">
+                        <li id="3" data-slot="0113" class="text-center slot" data-toggle="modal" data-target="#myModal">
                             <div class="slot-name">ROP</div>
                             <div class="slot-code">0113</div>
                             <div class="slot-value" id="slot-value">11111</div>
