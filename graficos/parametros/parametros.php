@@ -32,7 +32,7 @@ if ($op == 'listaCombo_json') {
         
 } else if($op == 'listaPorSlot') {
     $idSlot = (!empty($_REQUEST['slot'])) ? $_REQUEST['slot'] : '';
-    //$max = (!empty($_REQUEST['max'])) ? $_REQUEST['max'] : '';     
+    //$parametro = (!empty($_REQUEST['parametro'])) ? $_REQUEST['parametro'] : '';     
     listaPorSlot($idSlot);
 } else {
     //echo "...";  
@@ -42,13 +42,15 @@ function listaPorSlot($slot)
 {
     $myPdo = MyPdo::getInstance();
     $conn  = $myPdo->getConnect();
-    $sql = "select valor, fecha from datos where slot = ".$slot." ORDER BY id_lectura DESC LIMIT 1";
-    $sql_string = $sql;
-    $stmt = $conn->prepare($sql_string);
-    
-    $stmt->execute();
-    $rs = $stmt->fetchAll();
+    $sqlSlot = getSQLSlot($slot);
+    $rs = NULL;
+    if (!empty($sqlSlot)){
+        $stmt = $conn->prepare($sqlSlot);    
+        $stmt->execute();
+        $rs = $stmt->fetchAll();        
+    }
     $conn = NULL;
+
     echo json_encode($rs);
 }
 //------------------------------------------------------------------------------
@@ -116,4 +118,33 @@ function updateParameter($idSlot, $min='', $max='')
     $sqlString = $sql;    
     $stmt = $conn->prepare($sqlString);    
     $stmt->execute();
+}
+
+//-----------------------------------------------
+//-------------------- HELPER -------------------
+//-----------------------------------------------
+
+function getSQLSlot($string)
+{   
+    if (empty($string)) { return ''; } 
+
+    $sql = 'SELECT'; 
+    $name = 'slot_';
+    if (strpos($string, ',') !== false) {
+        $chars = preg_split('/,/', $string);
+        foreach ($chars as $key => $value) {
+            if (!empty($value)) {
+                $named = $name . $value;                
+                $sql .= "(SELECT datos.valor FROM datos WHERE datos.slot = '{$value}' ORDER BY datos.id_lectura DESC LIMIT 1) AS '{$named}',";
+            }            
+        }
+        $sql = substr($sql,0,-1);
+    } else {
+        $named = $name . $string;
+        $sql .= "(SELECT datos.valor FROM datos WHERE datos.slot = '{$string}' ORDER BY datos.id_lectura DESC LIMIT 1) AS '{$named}'";        
+    }
+
+
+    $sql .= 'FROM datos LIMIT 1';
+    return $sql;
 }
