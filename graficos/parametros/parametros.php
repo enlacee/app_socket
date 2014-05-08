@@ -34,9 +34,28 @@ if ($op == 'listaCombo_json') {
     $idSlot = (!empty($_REQUEST['slot'])) ? $_REQUEST['slot'] : '';
     //$parametro = (!empty($_REQUEST['parametro'])) ? $_REQUEST['parametro'] : '';     
     listaPorSlot($idSlot);
+    
+} else if($op == 'listaPorSlotCero') {
+    $idSlot = (!empty($_REQUEST['slot'])) ? $_REQUEST['slot'] : '';      
+    listaPorSlotCero($idSlot);    
 } else {
     //echo "...";  
 } 
+
+
+function listaPorSlotCero($slot) 
+{
+    $myPdo = MyPdo::getInstance();
+    $conn  = $myPdo->getConnect();
+    $sql = "select valor, fecha from datos where slot = ".$slot." ORDER BY id_lectura DESC LIMIT 1";
+    $sql_string = $sql;
+    $stmt = $conn->prepare($sql_string);
+    
+    $stmt->execute();
+    $rs = $stmt->fetchAll();
+    $conn = NULL;
+    echo json_encode($rs);
+}
 
 function listaPorSlot($slot) 
 {
