@@ -178,7 +178,7 @@ $(function() {
         function loadDataSecuencial() {
             $.ajax({
                 url: 'parametros.php',
-                data : {op : 'listaPorSlot', slot : '1212'},
+                data : {op : 'listaPorSlotCero', slot : '1212'},
                 type: 'GET',
                 dataType: 'json',
                 success: function (rs){
