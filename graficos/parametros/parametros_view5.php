@@ -95,6 +95,7 @@ font-size: 24px;
                                 <div class="pull-left">0</div>
                                 <div class="pull-right">10000</div>                                    
                             </div>
+                            <div class="slot-color hidden">#FF0000</div>
                         </li>
 
                         <li id="2" data-slot="0108" class="text-center slot" data-toggle="modal" data-target="#myModal">
@@ -106,6 +107,7 @@ font-size: 24px;
                                 <div class="pull-left">0</div>
                                 <div class="pull-right">10000</div>                                    
                             </div>
+                            <div class="slot-color hidden">#FF0000</div>
                         </li>
 
                         <li id="3" data-slot="0113" class="text-center slot" data-toggle="modal" data-target="#myModal">
@@ -117,6 +119,7 @@ font-size: 24px;
                                 <div class="pull-left">0</div>
                                 <div class="pull-right">10000</div>                                    
                             </div>
+                            <div class="slot-color hidden">#FF0000</div>
                         </li>
 
                         <li id="4" data-slot="0123" class="text-center slot" data-toggle="modal" data-target="#myModal">
@@ -128,6 +131,7 @@ font-size: 24px;
                                 <div class="pull-left">0</div>
                                 <div class="pull-right">10000</div>                                    
                             </div>
+                            <div class="slot-color hidden">#FF0000</div>
                         </li> 
 
 
@@ -209,102 +213,40 @@ $(function() {
 });
         </script>
         <script type="text/javascript">
-/*
-
-
-        // lista de todos los slots
-        var objSlotData = [
-            {key:1, slot:'1212', nombre:'uno', min:'0', max:'10000', color:'red', valor:''},
-            {key:2, slot:'1212', nombre:'dos', min:'0', max:'10000', color:'red', valor:''},
-            {key:3, slot:'1212', nombre:'tres', min:'0', max:'10000', color:'red',valor:''}
-        ];
-
-
-        
-
-       loadTimer();      
-        function loadTimer() {
-
-        //--      
-        var arraySlot = [{1:'1212'},{2:'0108'},{3:'0113'},{4:'0123'}];
-        console.log('arraySlot',arraySlot);
-
-        var parametro = arrayToString(arraySlot);
-
-
-            $.ajax({
-                url: 'parametros.php',
-                //data : {op : 'listaPorSlot', slot : '1212'},
-                data : {op : 'listaPorSlot', slot : parametro},
-                type: 'GET',
-                dataType: 'json',
-                success: function (rs){
-                    
-                    var data = rs[0];
-                    var name = 'slot_';
-                    var array = arraySlot;
-                    var contador = 1;
-                    for (var i=0; i<array.length; i++) {
-                        var node = $("#"+contador).children();
-                        var named = name+array[i][contador];
-                        node[2].innerHTML = show_props(data, named) || '-';
-                        contador++;
-                    }
-                 
-                }
-            }); 
-            
-        setTimeout(function() {
-           loadTimer(); 
-        }, 1000);            
-            
-            
+// todo a string
+function arrayToString(arraySlot)
+{
+   var string = '';
+   var contador = 1;
+    for(var i=0; i < arraySlot.length;i++) {                
+        if (arraySlot.length == i) {
+            string += arraySlot[i][contador];
+        } else {
+            string += arraySlot[i][contador]+',';
         }
-        */
-
-        //------------------------------------------------------------------------------
-        //------------------------------------------------------------------------------
-        // todo a string
-        function arrayToString(arraySlot)
-        {
-           var string = '';
-           var contador = 1;
-            for(var i=0; i < arraySlot.length;i++) {                
-                if (arraySlot.length == i) {
-                    string += arraySlot[i][contador];
-                } else {
-                    string += arraySlot[i][contador]+',';
-                }
-                contador++;
-            }            
-            return string;
-        }
-
-        function show_props(obj, objName) { 
-            var result = ""; 
-            for (var i in obj) {
-                if ( i == objName) {
-                result = obj[i];                
-                break;
-                }             
-            }
-           return result; 
-        }
-
-
+        contador++;
+    }            
+    return string;
+}
+// asignar (recorrer json dinamico)
+function show_props(obj, objName) { 
+    var result = ''; 
+    for (var i in obj) {
+        if ( i == objName) {
+            result = obj[i];                
+            break;
+        }             
+    }
+   return result; 
+}
         </script>
-        
-        
-        
         <script>
 /**
  * 
  */
-
 $(function(){
     
-    var vars = {
-        //contenedor_opciones: '#adminEstaContentBox',
+    var vars = {        
         url : 'parametros.php',        
         contentSlot : "#contentSlot",
         btn_save : '#btnSave',
@@ -314,21 +256,17 @@ $(function(){
         param_parameter : '#parameter',
         param_alarMin : '#alarmMin',
         param_alarMax : '#alarmMax',
-        param_background: '#background',
-
-        // variables select
-        order : 'DESC',
-        limit : 40,
-        renderNumber : 16,
+        param_background: '#background'
     };
 
     var Slot = {
-        statusTimer : true,
-        data : [],
+        statusTimer : true,        
         arraySlot : [{1:'1212'},{2:'0108'},{3:'0113'},{4:'0123'}],
         init : function() {
             console.log("init SLOT");
-            this.loadDataSecuencial();            
+            this.listOption();
+            this.loadDataSecuencial();
+            
             this.btnSave();
         },
         // 03 : load data if statusTimer = true
@@ -363,8 +301,10 @@ $(function(){
                     var contador = 1;
                     for (var i=0; i<array.length; i++) {
                         var node = $("#"+contador).children();
+                        node.padre = $("#"+contador);
                         var named = name+array[i][contador];
                         node[2].innerHTML = show_props(data, named) || '-';
+                        Slot.ayuda_colorSlot(node);
                         contador++;
                     }
                 }
@@ -391,7 +331,7 @@ $(function(){
             
             // LISTENER DESPUES DE CREAR LOS OBJETOS
             $(".slot").unbind();
-            $(".slot").bind('click',function() {                
+            $(".slot").bind('click',function() {
                 $(vars.key).val($(this).attr('id'));
                 $(vars.param_parameter_antes).val($(this).attr('data-slot'));
                 $(vars.param_parameter).val($(this).attr('data-slot'));
@@ -409,7 +349,8 @@ $(function(){
             $(vars.param_alarMin).val('');
             $(vars.param_alarMax).val('');
             $(vars.param_background).val('');
-        },        
+        },
+        // Evento ah iniciar al cargar el Dom
         btnSave : function() {
             $(vars.btn_save).unbind();
             $(vars.btn_save).bind('click', function() {                
@@ -422,48 +363,24 @@ $(function(){
                 array.name = $(vars.param_parameter+" option:selected").text();
                 array.min = $(vars.param_alarMin).val() || 0;
                 array.max = $(vars.param_alarMax).val() || 0;
-                array.background = $(vars.param_background).val();                
-                //ENDDATA            
+                array.background = $(vars.param_background).val()|| '#FF0000';                
+                //ENDDATA
                 
                 $("#"+id).attr('data-slot', array.slot);                
-                node[0].innerHTML = array.name
+                node[0].innerHTML = array.name;
                 node[1].innerHTML = array.slot;
                 node[2].innerHTML = '-';
-                node[4].children[0].innerHTML = array.min;                
-                node[4].children[1].innerHTML = array.max;                
+                node[4].children[0].innerHTML = array.min;
+                node[4].children[1].innerHTML = array.max;
+                node[5].innerHTML = array.background;
                 //CAMBIAR LA PETICION
-                var arraySlot = Slot.arraySlot; // arraySlot[0][1] console.log("arraySlot[i][contador] ",arraySlot[(id-1)][id]);
+                var arraySlot = Slot.arraySlot; // arraySlot[0][1]
                 arraySlot[(id-1)][id] = array.slot;
-
-                //Slot.ayuda_buscarSlot(array);
+                
                 Slot.clearForm();
             });
         },
-
-        ayuda_buscarSlot : function(slot) {
-            var data = this.data;
-            var flag = false;
-            // buscar y actualizar
-            for(var i = 0; i < data.length; i++) {
-                // Encuentra  y actualiza
-                if (data[i].key == slot.key) {                    
-                    data[i].name = slot.name;
-                    data[i].slot = slot.slot;
-                    data[i].min = slot.min; //(slot.min) ? slot.min : data[i].min;
-                    data[i].max = slot.max;  //(slot.max) ? slot.max : data[i].max;
-                    data[i].background = slot.background; //(slot.background) ? slot.background : data[i].background;
-                    flag = true;
-                    // update en DB
-                    if(slot.min !== 0 && slot.max !== 0){
-                        Slot.ayuda_updateSlot(data[i]);    
-                    }
-                    
-                    break;
-                }
-            }
-            this.data = data;
-            return flag;
-        },
+        // en desarrollo para actualizar datos de slot.
         ayuda_updateSlot : function(slot){
             $.ajax({
                 url: vars.url,
@@ -475,40 +392,23 @@ $(function(){
                 }
             });
         },
-        ayuda_renderColor : function (slot) {
-
-            var htmlStyle = '';
-            /*if (slot.slot=="0140") {
-                console.log("0140", slot);
-            }*/
-
-            //numeros
-            //slot.valor = parseInt(slot.valor);
-            //slot.min = parseInt(slot.min) || 0;
-            //slot.max = parseInt(slot.max);
-
-            if ( slot.valor >  slot.min ) {
-                if (slot.valor > slot.max) {
-                    var color = (slot.background) ? slot.background : 'red';
-                    htmlStyle += ' style="background-color: '+color+';" ';                    
+        ayuda_colorSlot : function(node) {
+            var slotValor = parseInt(node[2].textContent);
+            var slotMin = node[4].children[0].textContent;
+            var slotMax = node[4].children[1].textContent;
+            var slotColor = node[5].textContent;            
+            //CAMBIAR DE COLOR            
+            if ( slotValor >  slotMin ) {
+                if (slotValor > slotMax) {
+                    //node.padre[0].style.backgroundColor = slotColor;
+                    node[2].style.color = slotColor;
                 }
-              
-            } else {
-                //htmlStyle += ' style="background-color: gray;" ';
-            }           
-
-            return htmlStyle
+            }
         }
-
-
-
-
     };
     
-    //
-    Slot.listOption();
+    // iniciar Objeto.    
     Slot.init();
-    
     
 });        
         </script>
