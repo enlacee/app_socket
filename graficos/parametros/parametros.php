@@ -94,38 +94,44 @@ function listSlotComboBox($order="ASC")
  * @param type $limit
  * @return type
  */
-function listParameter($order="ASC", $limit = 50, $idSlot='')
+function listParameter($order="ASC", $limit = 12)
 {
     $myPdo = MyPdo::getInstance();
     $conn  = $myPdo->getConnect();
     //$stmt = $conn->prepare("SELECT * FROM slots order by name asc limit $limit");
 
-    $sql = " 
-    SELECT 
-    slots.slot,
-    slots.name,
-    slots.min,
-    slots.max,  
-    (SELECT datos.valor FROM datos WHERE datos.slot = slots.slot ORDER BY datos.fecha DESC limit 1) as valor
-    FROM slots ";
-    if (!empty($idSlot)) {
-        $sql .= "WHERE slots.slot = $idSlot ";    
-    }
+    $sql = "SELECT * FROM slots";
     if (!empty($order)) {
-        $sql .= "ORDER BY slots.name $order ";    
-    }    
-    
+        $sql .= " ORDER BY slots.name $order ";    
+    }
     
     if (!empty($limit) ) {
-        $sql .= "LIMIT $limit ";  
-    }
-    
+        $sql .= " LIMIT $limit ";  
+    }    
 
     $stmt = $conn->prepare($sql);    
     $stmt->execute();
     $rs = $stmt->fetchAll();
-    $conn = NULL;    
-    return $rs;
+    $conn = NULL;
+    
+    $respons['data'] = $rs;
+    $respons['datajs'] = listParameterJs($rs);
+    return $respons;
+}
+
+// ayuda array js
+function listParameterJs($rs)
+{
+    $contador = 1;    
+    $stringJs = ''; // {1:'1212'},{2:'0108'},{3:'0113'},{4:'0123'}
+    if (is_array($rs) && count($rs)) {
+        foreach ($rs as $value) {
+            $stringJs .= "{".$contador.":'".$value['slot']."'},";
+            $contador++;
+        }
+        $stringJs = substr($stringJs,0,-1);
+    }
+    return $stringJs;
 }
 
 function updateParameter($idSlot, $min='', $max='')

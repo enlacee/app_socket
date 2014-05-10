@@ -1,4 +1,10 @@
-
+<?php
+require_once '../../vendor/class/MyPdo.php';
+require_once './parametros.php';
+$slot = listParameter();
+$slotData = $slot['data'];
+$slotJs = $slot['datajs'];
+?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -86,6 +92,23 @@ font-size: 24px;
                 </div>-->
                 <div class="bs-glyphicons">
                     <ul id ="contentSlot" class="bs-glyphicons-list">
+                        <?php if (is_array($slotData) && count($slotData)) : ?>
+                            <?php $contador = 1; ?>
+                            <?php foreach ($slotData as $value) : ?>
+                                <li id="<?php echo $contador ?>" data-slot="<?php echo $value['slot'] ?>" class="text-center slot" data-toggle="modal" data-target="#myModal">
+                                    <div class="slot-name"><?php echo $value['name'] ?></div>
+                                    <div class="slot-code"><?php echo $value['slot'] ?></div>
+                                    <div class="slot-value" id="slot-value">-</div>
+                                    <div class="slot-code">feed</div>
+                                    <div class="">
+                                        <div class="pull-left"><?php echo $value['min'] ?></div>
+                                        <div class="pull-right"><?php echo $value['max'] ?></div>                                    
+                                    </div>
+                                    <div class="slot-color hidden">#FF0000</div>
+                                </li>                            
+                            <?php $contador++; endforeach; ?>
+                        <?php endif; ?>                       
+                        <!--                        
                         <li id="1" data-slot="1212" class="text-center slot" data-toggle="modal" data-target="#myModal">
                             <div class="slot-name">C1</div>
                             <div class="slot-code">1212</div>
@@ -97,7 +120,6 @@ font-size: 24px;
                             </div>
                             <div class="slot-color hidden">#FF0000</div>
                         </li>
-
                         <li id="2" data-slot="0108" class="text-center slot" data-toggle="modal" data-target="#myModal">
                             <div class="slot-name">TOTAL DEPTH</div>
                             <div class="slot-code">0108</div>
@@ -109,30 +131,7 @@ font-size: 24px;
                             </div>
                             <div class="slot-color hidden">#FF0000</div>
                         </li>
-
-                        <li id="3" data-slot="0113" class="text-center slot" data-toggle="modal" data-target="#myModal">
-                            <div class="slot-name">ROP</div>
-                            <div class="slot-code">0113</div>
-                            <div class="slot-value" id="slot-value">11111</div>
-                            <div class="slot-code">feed</div>
-                            <div class="">
-                                <div class="pull-left">0</div>
-                                <div class="pull-right">10000</div>                                    
-                            </div>
-                            <div class="slot-color hidden">#FF0000</div>
-                        </li>
-
-                        <li id="4" data-slot="0123" class="text-center slot" data-toggle="modal" data-target="#myModal">
-                            <div class="slot-name">STROKE 1</div>
-                            <div class="slot-code">0123</div>
-                            <div class="slot-value" id="slot-value">11111</div>
-                            <div class="slot-code">feed</div>
-                            <div class="">
-                                <div class="pull-left">0</div>
-                                <div class="pull-right">10000</div>                                    
-                            </div>
-                            <div class="slot-color hidden">#FF0000</div>
-                        </li> 
+-->
 
 
 
@@ -261,7 +260,7 @@ $(function(){
 
     var Slot = {
         statusTimer : true,        
-        arraySlot : [{1:'1212'},{2:'0108'},{3:'0113'},{4:'0123'}],
+        arraySlot : [<?php echo $slotJs ?>], //{1:'1212'},{2:'0108'},{3:'0113'},{4:'0123'}
         init : function() {
             console.log("init SLOT");
             this.listOption();
