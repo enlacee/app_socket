@@ -138,10 +138,11 @@ font-size: 24px;
             </div>
             
             <!--<input type="button" class="btn btn-primary" onClick="javascript:history.back()" value="Back" />-->
-            <br/>            
-            <button type="button" class="btn btn-primary btn-sl" onClick="javascript:history.back()" > Atras </button>
-            <button type="button" class="btn btn-primary btn-sl"> Adelante </button>
-            
+            <br/>
+            <button type="button" class="btn btn-default btn-sl" onClick="javascript:history.back()" > Atras </button>
+            <button type="button" class="btn btn-default btn-sl"> Adelante </button>
+            <br/>
+            <br/>
         </div> <!-- /container -->  
         
         <!-- modal -->
