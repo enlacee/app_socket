@@ -26,8 +26,8 @@ $slotJs = $slot['datajs'];
         <![endif]-->
         <style  type="text/css">
 .bs-glyphicons-list {
-padding-left: 0;
-list-style: none;
+/*padding-left: 0;
+list-style: none;*/
 }    
 .bs-glyphicons li {
     /*
@@ -38,22 +38,19 @@ font-size: 12px;*/
 float: left;
 width: 23%;
 min-width: 140px;
-height: 115px;
 padding: 10px;
-/*font-size: 10px;*/
 line-height: 1.4;
 /*text-align: center;*/
-border: 1px solid silver;
-background-color: #f9f9f9;
+border: 2px solid white;
+background-color: #0000AA;
+color: #FFFFFF;
 font-weight: bold;
-margin: 2px;
 }
 /*
 .bs-glyphicons li:hover {
-color: #fff;
-background-color: #563d7c;
+background-color: #0000AA;
 }
-
+/*
 .bs-glyphicons .glyphicon {
 margin-top: 5px;
 margin-bottom: 10px;
@@ -71,7 +68,7 @@ font-size: 24px;
 }
 
 .slot-value{
-    font-size: 18px;    
+    font-size: 25px;
 }
 
 </style>
@@ -90,7 +87,7 @@ font-size: 24px;
                 <div class="page-header">
                   <h2>PARAMETROS EN TIEMPO REAL <small>DDSLP</small></h2>
                 </div>
-                <div class="bs-glyphicons">
+                <div class="bs-glyphicons clearfix ">
                     <ul id ="contentSlot" class="bs-glyphicons-list">
                         <?php if (is_array($slotData) && count($slotData)) : ?>
                             <?php $contador = 1; ?>
@@ -104,7 +101,7 @@ font-size: 24px;
                                         <div class="pull-left"><?php echo $value['min'] ?></div>
                                         <div class="pull-right"><?php echo $value['max'] ?></div>                                    
                                     </div>
-                                    <div class="slot-color hidden">#FF0000</div>
+                                    <div class="slot-color hidden">#DE0002</div>
                                     <div class="slot-bcolor hidden">#000000</div>
                                 </li>                            
                             <?php $contador++; endforeach; ?>
@@ -119,7 +116,7 @@ font-size: 24px;
                                 <div class="pull-left">0</div>
                                 <div class="pull-right">10000</div>                                    
                             </div>
-                            <div class="slot-color hidden">#FF0000</div>
+                            <div class="slot-color hidden">#DE0002</div>
                         </li>
                         <li id="2" data-slot="0108" class="text-center slot" data-toggle="modal" data-target="#myModal">
                             <div class="slot-name">TOTAL DEPTH</div>
@@ -130,7 +127,7 @@ font-size: 24px;
                                 <div class="pull-left">0</div>
                                 <div class="pull-right">10000</div>                                    
                             </div>
-                            <div class="slot-color hidden">#FF0000</div>
+                            <div class="slot-color hidden">#DE0002</div>
                         </li>
 -->
 
@@ -186,7 +183,7 @@ font-size: 24px;
                             <div class="col-md-4"><label>Background Color</label></div>
                             <div class="col-md-4">
                                 <div class="input-group colorpicker-component demo demo-auto colorpicker-element">
-                                    <input type="text" id="background" value="#ff0000" class="form-control"  >
+                                    <input type="text" id="background" value="#de0002" class="form-control"  >
                                     <span class="input-group-addon"><i style="background-color: rgb(0, 0, 0);"></i></span>
                                 </div>
                             </div>
@@ -381,7 +378,7 @@ $(function(){
                 array.name = $(vars.param_parameter+" option:selected").text();
                 array.min = $(vars.param_alarMin).val() || 0;
                 array.max = $(vars.param_alarMax).val() || 0;
-                array.background = $(vars.param_background).val()|| '#FF0000';
+                array.background = $(vars.param_background).val()|| '#DE0002';
                 array.textColor = $(vars.param_text_color).val()|| '#000000';
                 //ENDDATA
                 
