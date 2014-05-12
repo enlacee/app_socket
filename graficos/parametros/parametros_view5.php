@@ -87,9 +87,9 @@ font-size: 24px;
 
 
             <div class="container">
-                <!--<div class="page-header">
-                  <h2>Live Variable Data By Rig <small>DDSLP</small></h2>
-                </div>-->
+                <div class="page-header">
+                  <h2>PARAMETROS EN TIEMPO REAL <small>DDSLP</small></h2>
+                </div>
                 <div class="bs-glyphicons">
                     <ul id ="contentSlot" class="bs-glyphicons-list">
                         <?php if (is_array($slotData) && count($slotData)) : ?>
@@ -99,12 +99,13 @@ font-size: 24px;
                                     <div class="slot-name"><?php echo $value['name'] ?></div>
                                     <div class="slot-code"><?php echo $value['slot'] ?></div>
                                     <div class="slot-value" id="slot-value">-</div>
-                                    <div class="slot-code">feed</div>
+                                    <div class="slot-code"><?php echo $value['medida'] ?></div>
                                     <div class="">
                                         <div class="pull-left"><?php echo $value['min'] ?></div>
                                         <div class="pull-right"><?php echo $value['max'] ?></div>                                    
                                     </div>
                                     <div class="slot-color hidden">#FF0000</div>
+                                    <div class="slot-bcolor hidden">#000000</div>
                                 </li>                            
                             <?php $contador++; endforeach; ?>
                         <?php endif; ?>                       
@@ -138,6 +139,12 @@ font-size: 24px;
                     </ul>
                 </div>
             </div>
+            
+            <!--<input type="button" class="btn btn-primary" onClick="javascript:history.back()" value="Back" />-->
+            <br/>            
+            <button type="button" class="btn btn-primary btn-sl" onClick="javascript:history.back()" > Atras </button>
+            <button type="button" class="btn btn-primary btn-sl"> Adelante </button>
+            
         </div> <!-- /container -->  
         
         <!-- modal -->
@@ -185,6 +192,16 @@ font-size: 24px;
                             </div>
                         </div>
 
+                        <div class="row form-group">
+                            <div class="col-md-4"><label>Text Color</label></div>
+                            <div class="col-md-4">
+                                <div class="input-group colorpicker-component demo demo-auto colorpicker-element">
+                                    <input type="text" id="textColor" value="#000000" class="form-control"  >
+                                    <span class="input-group-addon"><i style="background-color: rgb(0, 0, 0);"></i></span>
+                                </div>
+                            </div>
+                        </div>                        
+                        
                         <div class="row form-group"></div>
                         <div class="row form-group"></div>
                         <div class="row form-group"></div>
@@ -255,7 +272,8 @@ $(function(){
         param_parameter : '#parameter',
         param_alarMin : '#alarmMin',
         param_alarMax : '#alarmMax',
-        param_background: '#background'
+        param_background: '#background',
+        param_text_color : '#textColor'
     };
 
     var Slot = {
@@ -348,6 +366,7 @@ $(function(){
             $(vars.param_alarMin).val('');
             $(vars.param_alarMax).val('');
             $(vars.param_background).val('');
+            $(vars.param_text_color).val('');
         },
         // Evento ah iniciar al cargar el Dom
         btnSave : function() {
@@ -362,7 +381,8 @@ $(function(){
                 array.name = $(vars.param_parameter+" option:selected").text();
                 array.min = $(vars.param_alarMin).val() || 0;
                 array.max = $(vars.param_alarMax).val() || 0;
-                array.background = $(vars.param_background).val()|| '#FF0000';                
+                array.background = $(vars.param_background).val()|| '#FF0000';
+                array.textColor = $(vars.param_text_color).val()|| '#000000';
                 //ENDDATA
                 
                 $("#"+id).attr('data-slot', array.slot);                
@@ -372,6 +392,7 @@ $(function(){
                 node[4].children[0].innerHTML = array.min;
                 node[4].children[1].innerHTML = array.max;
                 node[5].innerHTML = array.background;
+                node[6].innerHTML = array.textColor;
                 //CAMBIAR LA PETICION
                 var arraySlot = Slot.arraySlot; // arraySlot[0][1]
                 arraySlot[(id-1)][id] = array.slot;
@@ -395,12 +416,13 @@ $(function(){
             var slotValor = parseInt(node[2].textContent);
             var slotMin = node[4].children[0].textContent;
             var slotMax = node[4].children[1].textContent;
-            var slotColor = node[5].textContent;            
+            var slotBackground = node[5].textContent;            
+            var slotTextColor = node[6].textContent;            
             //CAMBIAR DE COLOR            
             if ( slotValor >  slotMin ) {
                 if (slotValor > slotMax) {
-                    //node.padre[0].style.backgroundColor = slotColor;
-                    node[2].style.color = slotColor;
+                    node.padre[0].style.backgroundColor = slotBackground;
+                    node[2].style.color = slotTextColor;
                 }
             }
         }

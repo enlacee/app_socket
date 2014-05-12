@@ -76,12 +76,24 @@ function listaPorSlot($slot)
 /**
 * Lista para cargar el combo box (Modal)
 */
-function listSlotComboBox($order="ASC") 
+function listSlotComboBox() 
 {
     $myPdo = MyPdo::getInstance();
     $conn  = $myPdo->getConnect();
-
-    $stmt = $conn->prepare('SELECT * FROM slots order by name asc');
+    // chamge of db
+    $conn->exec('USE wellmobil');
+    $stmt = $conn->prepare(
+    'SELECT 
+    id,
+    slot,
+    parametro AS name,
+    medida,
+    izquierda AS min,
+    valor_final AS max,
+    color 
+    FROM parametros order by parametro asc');
+    
+    //$stmt = $conn->prepare('SELECT * FROM slots order by name asc');
     $stmt->execute();
     $rs = $stmt->fetchAll();
     $conn = NULL;
@@ -98,12 +110,18 @@ function listParameter($order="ASC", $limit = 12)
 {
     $myPdo = MyPdo::getInstance();
     $conn  = $myPdo->getConnect();
-    //$stmt = $conn->prepare("SELECT * FROM slots order by name asc limit $limit");
-
-    $sql = "SELECT * FROM slots";
-    if (!empty($order)) {
-        $sql .= " ORDER BY slots.name $order ";    
-    }
+    // chamge of db
+    $conn->exec('USE wellmobil');   
+    
+    $sql = 'SELECT 
+    id,
+    slot,
+    parametro AS name,
+    medida,
+    izquierda AS min,
+    valor_final AS max,
+    color 
+    FROM parametros order by parametro asc';
     
     if (!empty($limit) ) {
         $sql .= " LIMIT $limit ";  

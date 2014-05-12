@@ -25,8 +25,8 @@ class MyPdo {
     public function __construct()
     {
         try {
-            //$this->conn = new PDO('mysql:host=localhost;dbname=free_xploralog', 'root', ''); //LOCAL
-            $this->conn = new PDO('mysql:host=localhost;dbname=xplora-genesis2014', 'root', 'xploralog'); // SERVER
+            $this->conn = new PDO('mysql:host=localhost;dbname=free_xploralog', 'root', ''); //LOCAL
+            //$this->conn = new PDO('mysql:host=localhost;dbname=xplora-genesis2014', 'root', 'xploralog'); // SERVER
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $this->conn->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
         } catch(PDOException $e) {
