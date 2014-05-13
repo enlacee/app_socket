@@ -25,6 +25,9 @@ $slotJs = $slot['datajs'];
           <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
         <style  type="text/css">
+            body{
+                background-color: black;
+            }
 .bs-glyphicons-list {
 padding-left: 0;
 list-style: none;
