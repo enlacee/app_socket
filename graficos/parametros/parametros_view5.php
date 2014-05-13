@@ -36,7 +36,7 @@ font-size: 12px;*/
 }    
 .bs-glyphicons li {
 float: left;
-width: 23%;
+width: 20%;
 min-width: 140px;
 padding: 10px;
 line-height: 1.4;
