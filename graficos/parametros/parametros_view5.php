@@ -26,8 +26,8 @@ $slotJs = $slot['datajs'];
         <![endif]-->
         <style  type="text/css">
 .bs-glyphicons-list {
-/*padding-left: 0;
-list-style: none;*/
+padding-left: 0;
+list-style: none;
 }    
 .bs-glyphicons li {
     /*
