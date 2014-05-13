@@ -106,7 +106,7 @@ function listSlotComboBox()
  * @param type $limit
  * @return type
  */
-function listParameter($order="ASC", $limit = 12)
+function listParameter($order="ASC", $limit = 20)
 {
     $myPdo = MyPdo::getInstance();
     $conn  = $myPdo->getConnect();
