@@ -209,7 +209,9 @@ font-size: 24px;
                         <div class="row form-group"></div>                        
                         
                     </div>
-                    <div class="modal-footer">
+                    <div class="modal-footer">                        
+                        <button id ="btnSaveRange" type="button" class="btn btn-warning" data-dismiss="modal" 
+                                data-toggle="tooltip" data-placement="top" title="Save Min and Max in database">Save Range</button>
                         <button id ="btnSave" type="button" class="btn btn-default" data-dismiss="modal">Save</button>
                         <button id ="btnClose" type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                     </div>
@@ -267,6 +269,7 @@ $(function(){
         url : 'parametros.php',        
         contentSlot : "#contentSlot",
         btn_save : '#btnSave',
+        btn_saveRange : '#btnSaveRange',
         
         key : '#key',
         param_parameter_antes : '#parameter_antes',
@@ -286,6 +289,7 @@ $(function(){
             this.loadDataSecuencial();
             
             this.btnSave();
+            this.btnSaveRange();
         },
         // 03 : load data if statusTimer = true
         loadDataSecuencial : function() {
@@ -372,37 +376,48 @@ $(function(){
         // Evento ah iniciar al cargar el Dom
         btnSave : function() {
             $(vars.btn_save).unbind();
-            $(vars.btn_save).bind('click', function() {                
-                var id = $(vars.key).val();               
-                var node = $("#"+id).children();                
-                //DATA
-                var array = new Array();
-                array.key = $(vars.key).val();                
-                array.slot = $(vars.param_parameter).val();
-                array.name = $(vars.param_parameter+" option:selected").text();
-                array.min = $(vars.param_alarMin).val() || 0;
-                array.max = $(vars.param_alarMax).val() || 0;
-                array.background = $(vars.param_background).val()|| '#DE0002';
-                array.textColor = $(vars.param_text_color).val()|| '#000000';
-                //ENDDATA
-                
-                $("#"+id).attr('data-slot', array.slot);                
-                node[0].innerHTML = array.name;
-                node[1].innerHTML = array.slot;
-                node[2].innerHTML = '-';
-                node[4].children[0].innerHTML = array.min;
-                node[4].children[1].innerHTML = array.max;
-                node[5].innerHTML = array.background;
-                node[6].innerHTML = array.textColor;
-                //CAMBIAR LA PETICION
-                var arraySlot = Slot.arraySlot; // arraySlot[0][1]
-                arraySlot[(id-1)][id] = array.slot;
-                
-                Slot.clearForm();
+            $(vars.btn_save).bind('click', function() {
+                Slot.eventSave();
             });
         },
+        btnSaveRange : function() {
+            $(vars.btn_saveRange).unbind();
+            $(vars.btn_saveRange).bind('click', function() {
+                var slot = Slot.eventSave();
+                Slot.ayuda_updateSlot(slot);
+            });
+        },
+        eventSave : function () {
+            var id = $(vars.key).val();               
+            var node = $("#"+id).children();                
+            //DATA
+            var array = new Array();
+            array.key = $(vars.key).val();                
+            array.slot = $(vars.param_parameter).val();
+            array.name = $(vars.param_parameter+" option:selected").text();
+            array.min = $(vars.param_alarMin).val() || 0;
+            array.max = $(vars.param_alarMax).val() || 0;
+            array.background = $(vars.param_background).val()|| '#DE0002';
+            array.textColor = $(vars.param_text_color).val()|| '#000000';
+            //ENDDATA
+
+            $("#"+id).attr('data-slot', array.slot);                
+            node[0].innerHTML = array.name;
+            node[1].innerHTML = array.slot;
+            node[2].innerHTML = '-';
+            node[4].children[0].innerHTML = array.min;
+            node[4].children[1].innerHTML = array.max;
+            node[5].innerHTML = array.background;
+            node[6].innerHTML = array.textColor;
+            //CAMBIAR LA PETICION
+            var arraySlot = Slot.arraySlot; // arraySlot[0][1]
+            arraySlot[(id-1)][id] = array.slot;
+
+            Slot.clearForm();
+            return array;            
+        },
         // en desarrollo para actualizar datos de slot.
-        ayuda_updateSlot : function(slot){
+        ayuda_updateSlot : function(slot){ alert ("antes ajac");
             $.ajax({
                 url: vars.url,
                 data : {op : 'update_parametros', idSlot : slot.slot, min:slot.min ,max:slot.max},

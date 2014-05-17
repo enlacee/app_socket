@@ -24,10 +24,10 @@ if ($op == 'listaCombo_json') {
         return $data;
     }*/
 } else if($op == 'update_parametros') {
-    /*$idSlot = (!empty($_REQUEST['idSlot'])) ? $_REQUEST['idSlot'] : '';
-    $min = (!empty($_REQUEST['min'])) ? $_REQUEST['min'] : '';
-    $max = (!empty($_REQUEST['max'])) ? $_REQUEST['max'] : '';      
-        updateParameter($idSlot, $min, $max);*/
+    $idSlot = (!empty($_REQUEST['idSlot'])) ? $_REQUEST['idSlot'] : '';
+    $min = (!empty($_REQUEST['min'])) ? $_REQUEST['min'] : 0;
+    $max = (!empty($_REQUEST['max'])) ? $_REQUEST['max'] : 0;      
+        updateParameter($idSlot, $min, $max);
 
         
 } else if($op == 'listaPorSlot') {
@@ -152,15 +152,18 @@ function listParameterJs($rs)
     return $stringJs;
 }
 
-function updateParameter($idSlot, $min='', $max='')
+function updateParameter($idSlot, $min=0, $max=0)
 {
-    $myPdo = MyPdo::getInstance();
-    $conn  = $myPdo->getConnect();
-    $sql = "UPDATE slots SET min = '$min', max = '$max' WHERE slot = '$idSlot' ";
-
-    $sqlString = $sql;    
-    $stmt = $conn->prepare($sqlString);    
-    $stmt->execute();
+    if (!empty($idSlot)) {
+        $myPdo = MyPdo::getInstance();
+        $conn  = $myPdo->getConnect();
+        $conn->exec('USE wellmobil'); 
+        //$sql = "UPDATE slots SET min = '$min', max = '$max' WHERE slot = '$idSlot' ";
+        $sql = "UPDATE parametros set izquierda = '$min', valor_final = '$max' WHERE slot = '$idSlot'";
+        $sqlString = $sql;    
+        $stmt = $conn->prepare($sqlString);    
+        $stmt->execute();
+    }
 }
 
 //-----------------------------------------------
