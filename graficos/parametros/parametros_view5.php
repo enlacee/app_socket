@@ -414,9 +414,9 @@ $(function(){
             });
         },
         ayuda_colorSlot : function(node) {
-            var slotValor = parseInt(node[2].textContent);
-            var slotMin = node[4].children[0].textContent;
-            var slotMax = node[4].children[1].textContent;
+            var slotValor = parseFloat(node[2].textContent); slotValor = !isNaN(slotValor) ? slotValor : 0;
+            var slotMin = parseFloat(node[4].children[0].textContent);
+            var slotMax = parseFloat(node[4].children[1].textContent);
             var slotBackground = node[5].textContent;            
             var slotTextColor = node[6].textContent;            
             //CAMBIAR DE COLOR            
@@ -425,6 +425,9 @@ $(function(){
                     node.padre[0].style.backgroundColor = slotBackground;
                     node[2].style.color = slotTextColor;
                 }
+            } else {
+                    node.padre[0].style.backgroundColor = '#0000AA';
+                    node[2].style.color = '#ffffff';                
             }
         }
     };
