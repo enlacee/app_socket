@@ -125,7 +125,7 @@
                     <hr>
                     <div class="row bs-glyphicons">
                         <ul id="contentSlot" class="bs-glyphicons-list">
-                            <li id="1" data-slot="0110" class="text-center slot" data-toggle="modal" data-target="#myModal" style="background-color: rgb(0, 0, 170);">
+                            <li id="1" data-slot="0110" class="col-sm-12 text-center slot" data-toggle="modal" data-target="#myModal" style="background-color: rgb(0, 0, 170);">
                                 <div class="slot-name">Bit Depth</div>
                                 <div class="slot-code">0110</div>
                                 <div class="slot-value" id="slot-value">-</div>
