@@ -20,28 +20,26 @@
         .bs-glyphicons-list {
             padding-left: 0;
             list-style: none;
-        }
+        } 
         .bs-glyphicons li {
             float: left;
             width: 100%;
             min-width: 140px;
-            height: 115px;
             padding: 10px;
             line-height: 1.4;
-            border: 1px solid silver;
-            background-color: #f9f9f9;
+            border: 2px solid white;
+            background-color: #0000AA;
+            color: #FFFFFF;
             font-weight: bold;
-            margin: 2px;
         }
         .slot-name{
-            font-size: 15px;
-
+            font-size: 15px;    
         }
         .slot-code{
-            font-size: 12px;
+            font-size: 12px;    
         }
         .slot-value{
-            font-size: 18px;
+            font-size: 25px;
         }
         /**/
         .column {
