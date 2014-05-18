@@ -34,7 +34,12 @@ if ($op == 'listaCombo_json') {
     $idSlot = (!empty($_REQUEST['slot'])) ? $_REQUEST['slot'] : '';
     //$parametro = (!empty($_REQUEST['parametro'])) ? $_REQUEST['parametro'] : '';     
     listaPorSlot($idSlot);
-    
+
+} else if($op == 'getSlot') { // for : grafico 1
+    $idSlot = (!empty($_REQUEST['slot'])) ? $_REQUEST['slot'] : '';
+    $limit = (!empty($_REQUEST['limit'])) ? $_REQUEST['limit'] : '';    
+    getSlot($idSlot, $limit);
+
 } else if($op == 'listaPorSlotCero') {
     $idSlot = (!empty($_REQUEST['slot'])) ? $_REQUEST['slot'] : '';      
     listaPorSlotCero($idSlot);    
@@ -72,6 +77,31 @@ function listaPorSlot($slot)
 
     echo json_encode($rs);
 }
+
+/**
+* lista 1 slot (con con # de datos requerido)
+*/
+function getSlot($idSlot, $limit = '') {
+    $myPdo = MyPdo::getInstance();
+    $conn  = $myPdo->getConnect();
+    
+    $rs = NULL;
+    if (!empty($limit)){
+        $sql = "SELECT valor,fecha FROM datos WHERE slot = ".$idSlot." ORDER BY id_lectura DESC LIMIT $limit";
+        $stmt = $conn->prepare($sql);    
+        $stmt->execute();
+        $rs = $stmt->fetchAll();        
+    }else {
+        $sql = "SELECT valor,fecha FROM datos WHERE slot = ".$idSlot." ORDER BY id_lectura DESC LIMIT 1";
+        $stmt = $conn->prepare($sql);    
+        $stmt->execute();
+        $rs = $stmt->fetch();
+    }
+    $conn = NULL;
+
+    echo json_encode($rs);
+}
+
 //------------------------------------------------------------------------------
 /**
 * Lista para cargar el combo box (Modal)

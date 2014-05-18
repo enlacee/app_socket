@@ -59,33 +59,43 @@
                             </div>
                             <div class="row form-group">
                                 <div class="col-sm-6 col-xs-6">
-                                    <select name="param_1" id="param_1" class="form-control input-sm param">
+                                    <select name="param_1" id="param_1" class="form-control input-sm param"
+                                    onchange="obj.loadDatagraf()">
                                         <option value="" selected="selected">- select 1</option>
                                     </select>
+                                    <div class="hide">i-tems</div>
                                 </div>
                                 <div class="col-sm-6 col-xs-6">
-                                    <select name="param_2" id="param_2" class="form-control input-sm param">
+                                    <select name="param_2" id="param_2" class="form-control input-sm param"
+                                    onchange="obj.loadDatagraf()">
                                         <option value="" selected="selected">- select 2</option>
                                     </select>
+                                    <div class="hide">i-tems</div>
                                 </div>
                             </div>
                             <div class="row form-group">
                                 <div class="col-sm-6 col-xs-6">
-                                    <select name="param_3" id="param_3" class="form-control input-sm param">
+                                    <select name="param_3" id="param_3" class="form-control input-sm param"
+                                    onchange="obj.loadDatagraf()">
                                         <option value="" selected="selected">- select 3</option>
                                     </select>
+                                    <div class="hide">i-tems</div>
                                 </div>
                                 <div class="col-sm-6 col-xs-6">
-                                    <select name="param_4" id="param_4" class="form-control input-sm param">
+                                    <select name="param_4" id="param_4" class="form-control input-sm param"
+                                    onchange="obj.loadDatagraf()">
                                         <option value="" selected="selected">- select 4</option>
                                     </select>
+                                    <div class="hide">i-tems</div>
                                 </div>
                             </div>
                             <div class="row form-group">
                                 <div class="col-sm-6 col-xs-6">
-                                    <select name="param_5" id="param_5" class="form-control input-sm param">
+                                    <select name="param_5" id="param_5" class="form-control input-sm param"
+                                    onchange="obj.loadDatagraf()">
                                         <option value="" selected="selected">- select 5</option>
                                     </select>
+                                    <div class="hide">i-tems</div>
                                 </div>
                             </div>
 
@@ -182,7 +192,7 @@
 
             </div>
 
-                <div class="col-md-9 column" style="height: 600px">col-md-8<br>
+                <div id = "graf" class="col-md-9 column" style="height: 600px">...<br>
 
                 </div>
             </div>
@@ -193,6 +203,9 @@
         </div> <!-- /container -->
         <script type="text/javascript" src="../public/vendor/jquery/jquery-1.11.0.min.js"></script>
         <script type="text/javascript" src="../public/bootstrap/js/bootstrap.min.js"></script>
+        <!-- graficos char-->
+        <script src="../public/vendor/highcharts/highcharts.js"></script>
+        <script src="../public/vendor/highcharts/modules/exporting.js"></script>        
         <script type="text/javascript">
     // ----- init Class
     //Constructor
@@ -255,14 +268,187 @@
                 }
                 $fieldset.attr('disabled',false);
             }
+        });        
+    };
+    Slot.prototype.loadDatagraf = function() {
+        var self = this,        
+        $param = $(self.get('param'));
+
+        // 01 : get datos basicos : creo array de parametros con datos
+        for(var i = 1; i <= $param.length; i++) {            
+            var dom = $('#param_'+i).next();
+            var id = $('#param_'+i).val();
+            getDataBySlot(dom, id, 10);            
+
+        }
+
+        // function ayuda
+        function getDataBySlot (dom, idSlot, limit) {
+            var $dom = dom
+            $dom.text('');
+            $.ajax({
+                url: self.get('url'),
+                data : {op : 'getSlot', slot : idSlot, limit : limit},
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    var array = new Array;                  
+                    if (typeof(data) == 'object') {
+                        for (var i = 0; i < data.length;i++) {                           
+                            $dom
+                                .append($("<span></span>")
+                                .text(data[i].valor));
+                        }                        
+                    }
+              
+                }
+            });
+
+        };
+    },
+    Slot.prototype.graf = function() {
+        var self = this,
+        $fieldset = $(self.get('fieldset')),
+        $param = $(self.get('param')),
+        series = new Array();        
+
+        // 01 : get datos basicos : creo array de parametros con datos
+        for(var i = 1; i <= $param.length; i++) {
+            var title = $('#param_'+i+' option:selected').text(),
+                id = $('#param_'+i).val(),
+                $dom = $('#param_'+i),
+                item = $dom.next().children(),
+                dataValues = new Array();
+
+            if (item.length > 0) {
+                for (var a = 0; a < item.length; a++) {
+                    console.log('vaaal',item[a].innerHTML);
+                    dataValues.push(parseFloat(item[a].innerHTML));
+                }
+            }
+            series.push({name:title, data:dataValues, id:id});
+        }
+
+
+        // 02 : cargar data serie 
+        var series0 = [
+            {
+                name: 'C1',
+                data: [0, 1, 2, 3, 4, 5, 6,7, 8, 9, 10, 11, 12, 13]
+            }, 
+            {
+                name: 'C2',
+                data: [52916.9, 173, 64, 43, 133, 75, 64,213, 14, 133, 55, 74, 10, 120]
+            },
+            {
+                name: 'C3',
+                data: [529170, 73, 64, 143, 33, 75, 64,313, 14, 33, 155, 74, 110, 120]
+            },
+            {
+                name: 'TOTAL GAS',
+                data: [13, 14, 133, 55, 224, 130, 320,513, 14, 33, 55, 174, 10, 120]
+            }            
+            ];
+        var real = [
+            {
+                name: 'C1', //1212
+                data: [52902.6, 52903.5, 52905.3, 52906.2, 52908.0, 52908.9]
+            }, 
+            {
+                name: 'C2', //1213
+                data: [35268.4, 35269.0, 35270.2, 35270.8, 35272.0, 35272.6]
+            },
+            {
+                name: 'C3', //1214
+                data: [2470.3, 2470.3, 2470.5, 2470.5, 2470.6,2470.8]
+            },
+            {
+                name: 'TOTAL GAS', //0140
+                data: [90635, 90637, 90640, 90641, 90644, 90646, 50000]
+            }            
+            ];
+
+
+        console.log(series.length);
+        console.log("series",series);
+        console.log("series0",series0);
+
+
+        // init char
+        $('#graf').highcharts({
+            chart: {
+                type: 'spline',
+                inverted: true,
+                events: {
+                    load: function() {/*    
+                        // set up the updating of the chart each second
+                        var series = this.series[0];
+                        setInterval(function() {
+                            console.log("heleleel");
+                            var x = (new Date()).getTime(), // current time
+                                y = Math.random();
+                            series.addPoint([x, y], true, true);
+                        }, 1000);*/
+                    }
+                }                
+            },
+            title: {
+                text: 'Graf'
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'top',
+                /*x: -150,
+                y: 100,
+                floating: true,
+                borderWidth: 1,
+                backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
+                */
+            },
+            exporting: {
+                enabled: false
+            },
+            xAxis: {
+                categories: []
+            },
+            yAxis: {
+                title: {
+                    text: 'Prufundidad (pies)'
+                },
+                labels: {
+                    formatter: function() {
+                        return this.value;
+                    }
+                },
+                min: 0
+            },
+            plotOptions: {
+                area: {
+                    fillOpacity: 0.5
+                }
+            },
+            series: series//real
         });
-        
+        // end char
+
+
+
+
+
     }
     // ----- End Class
 
     // application
     var obj = new Slot();    
     obj.listOption();
+
+    $("#btnSee").click(function(){
+        console.log("click");
+        //obj.loadDatagraf();
+        obj.graf();
+    });
+    
         </script>
     </body>
 </html>
