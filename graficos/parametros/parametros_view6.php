@@ -20,12 +20,13 @@
         .bs-glyphicons-list {
             padding-left: 0;
             list-style: none;
-        } 
+        }
         .bs-glyphicons li {
             float: left;
-            width: 100%;
-            min-width: 140px;
-            padding: 10px;
+            /*width: 100%;
+            min-width: 150px;
+            padding: 10px;*/
+            min-width: 145px;
             line-height: 1.4;
             border: 2px solid white;
             background-color: #0000AA;
@@ -33,10 +34,10 @@
             font-weight: bold;
         }
         .slot-name{
-            font-size: 15px;    
+            font-size: 15px;
         }
         .slot-code{
-            font-size: 12px;    
+            font-size: 12px;
         }
         .slot-value{
             font-size: 25px;
@@ -53,8 +54,8 @@
                 <div class="col-md-3 column">
                     <div class="row">
                         <label class="col-sm-12 control-label">Seleccione Parametros</label>
-                    </div>                    
-                    <div class="row form-group">                        
+                    </div>
+                    <div class="row form-group">
                         <div class="col-sm-6 col-xs-6">
                             <select name="param_1" id="tipo_variable" class="form-control input-sm">
                                 <option value="" selected="selected">- select 1</option>
@@ -68,9 +69,9 @@
                                 <option value="1">entero</option>
                                 <option value="2">real</option>
                             </select>
-                        </div>            
+                        </div>
                     </div>
-                    <div class="row form-group">                        
+                    <div class="row form-group">
                         <div class="col-sm-6 col-xs-6">
                             <select name="param_1" id="tipo_variable" class="form-control input-sm">
                                 <option value="" selected="selected">- select 3</option>
@@ -84,25 +85,19 @@
                                 <option value="1">entero</option>
                                 <option value="2">real</option>
                             </select>
-                        </div>            
+                        </div>
                     </div>
-                    <div class="row form-group">                        
+                    <div class="row form-group">
                         <div class="col-sm-6 col-xs-6">
                             <select name="param_1" id="tipo_variable" class="form-control input-sm">
                                 <option value="" selected="selected">- select 5</option>
                                 <option value="1">entero</option>
                                 <option value="2">real</option>
                             </select>
-                        </div>           
+                        </div>
                     </div>
 
-                    <div class="row form-group">                        
-                        <!--<div class="form-group">
-                            <label class="col-sm-6 control-label" for="passwordinput">TOTAL DEPTH</label>
-                            <div class="controls col-sm-6">
-                                <input id="passwordinput" name="passwordinput" type="password" class="form-control input-sm">
-                            </div>
-                        </div>-->
+                    <div class="row form-group">
                         <label class="control-label col-sm-6 col-xs-6" for="total_depth">Total depth</label>
                         <div class="col-sm-6 col-xs-6">
                             <select name="total_depth" id="total_depth" class="form-control input-sm">
@@ -114,22 +109,21 @@
                                 <option value="250">250</option>
                                 <option value="500">500</option>
                                 <option value="1000">1000</option>
-                            </select>                            
+                            </select>
                         </div>
                     </div>
-                    
+
                     <div class="row form-group">
                         <div class="col-sm-12 col-xs-12">
-                            <button id="btnSee" type="button" class="btn btn-primary col-sm-12 col-xs-12">Ver</button>                                                 
+                            <button id="btnSee" type="button" class="btn btn-primary col-sm-12 col-xs-12">Ver</button>
                         </div>
                     </div>
-            </div>
-                
-            <div class="col-md-9 column">col-md-8</div>
-            </div>
-            
-            <div class="row">                
-                <div class="col-md-3 column bs-glyphicons clearfix">                    
+
+
+
+                    <!-- lista de parametros -->
+                    <hr>
+                    <div class="row bs-glyphicons">
                         <ul id="contentSlot" class="bs-glyphicons-list">
                             <li id="1" data-slot="0110" class="text-center slot" data-toggle="modal" data-target="#myModal" style="background-color: rgb(0, 0, 170);">
                                 <div class="slot-name">Bit Depth</div>
@@ -138,7 +132,7 @@
                                 <div class="slot-code">feet</div>
                                 <div class="">
                                     <div class="pull-left">1</div>
-                                    <div class="pull-right">5000</div>                                    
+                                    <div class="pull-right">5000</div>
                                 </div>
                                 <div class="slot-color hidden">#DE0002</div>
                                 <div class="slot-bcolor hidden">#000000</div>
@@ -150,15 +144,59 @@
                                 <div class="slot-code">feet</div>
                                 <div class="">
                                     <div class="pull-left">1</div>
-                                    <div class="pull-right">5000</div>                                    
+                                    <div class="pull-right">5000</div>
                                 </div>
                                 <div class="slot-color hidden">#DE0002</div>
                                 <div class="slot-bcolor hidden">#000000</div>
                             </li>
-                            
-                        </ul>                    
+                            <li id="1" data-slot="0110" class="text-center slot" data-toggle="modal" data-target="#myModal" style="background-color: rgb(0, 0, 170);">
+                                <div class="slot-name">Bit Depth</div>
+                                <div class="slot-code">0110</div>
+                                <div class="slot-value" id="slot-value">-</div>
+                                <div class="slot-code">feet</div>
+                                <div class="">
+                                    <div class="pull-left">1</div>
+                                    <div class="pull-right">5000</div>
+                                </div>
+                                <div class="slot-color hidden">#DE0002</div>
+                                <div class="slot-bcolor hidden">#000000</div>
+                            </li>
+                            <li id="1" data-slot="0110" class="text-center slot" data-toggle="modal" data-target="#myModal" style="background-color: rgb(0, 0, 170);">
+                                <div class="slot-name">Bit Depth</div>
+                                <div class="slot-code">0110</div>
+                                <div class="slot-value" id="slot-value">-</div>
+                                <div class="slot-code">feet</div>
+                                <div class="">
+                                    <div class="pull-left">1</div>
+                                    <div class="pull-right">5000</div>
+                                </div>
+                                <div class="slot-color hidden">#DE0002</div>
+                                <div class="slot-bcolor hidden">#000000</div>
+                            </li>
+                            <li id="1" data-slot="0110" class="text-center slot" data-toggle="modal" data-target="#myModal" style="background-color: rgb(0, 0, 170);">
+                                <div class="slot-name">Bit Depth</div>
+                                <div class="slot-code">0110</div>
+                                <div class="slot-value" id="slot-value">-</div>
+                                <div class="slot-code">feet</div>
+                                <div class="">
+                                    <div class="pull-left">1</div>
+                                    <div class="pull-right">5000</div>
+                                </div>
+                                <div class="slot-color hidden">#DE0002</div>
+                                <div class="slot-bcolor hidden">#000000</div>
+                            </li>
+                        </ul>
                 </div>
-                <div class="col-md-8"><!--col-md-8--></div>
+
+            </div>
+
+                <div class="col-md-9 column" style="height: 600px">col-md-8<br>
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-9"><!--col-md-8--></div>
             </div>
         </div> <!-- /container -->
         <script type="text/javascript" src="../public/vendor/jquery/jquery-1.11.0.min.js"></script>
