@@ -333,24 +333,24 @@
 
 
         // 02 : cargar data serie 
-        var series0 = [
+        var demo = [
             {
                 name: 'C1',
                 data: [0, 1, 2, 3, 4, 5, 6,7, 8, 9, 10, 11, 12, 13]
             }, 
             {
                 name: 'C2',
-                data: [52916.9, 173, 64, 43, 133, 75, 64,213, 14, 133, 55, 74, 10, 120]
+                data: [18, 173, 64, 43, 133, 75, 64,213, 14, 133, 55, 74, 10, 120]
             },
             {
                 name: 'C3',
-                data: [529170, 73, 64, 143, 33, 75, 64,313, 14, 33, 155, 74, 110, 120]
+                data: [118, 73, 64, 143, 33, 75, 64,313, 14, 33, 155, 74, 110, 120]
             },
             {
                 name: 'TOTAL GAS',
                 data: [13, 14, 133, 55, 224, 130, 320,513, 14, 33, 55, 174, 10, 120]
-            }            
-            ];
+            }];
+
         var real = [
             {
                 name: 'C1', //1212
@@ -372,8 +372,7 @@
 
 
         console.log(series.length);
-        console.log("series",series);
-        console.log("series0",series0);
+        console.log("series",series);        
 
 
         // init char
@@ -430,7 +429,7 @@
                     fillOpacity: 0.5
                 }
             },
-            series: series0//real
+            series: demo
         });
         // end char
 
