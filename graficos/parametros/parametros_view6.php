@@ -430,7 +430,7 @@
                     fillOpacity: 0.5
                 }
             },
-            series: series//real
+            series: series0//real
         });
         // end char
 
