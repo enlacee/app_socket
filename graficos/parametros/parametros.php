@@ -40,7 +40,11 @@ if ($op == 'listaCombo_json') {
     $limit = (!empty($_REQUEST['limit'])) ? $_REQUEST['limit'] : '';    
     getSlot($idSlot, $limit);
 
-} else if($op == 'listaPorSlotCero') {
+} else if($op == 'getSlotTotalDepth') { // for : grafico 1
+    $valor = (!empty($_REQUEST['valor'])) ? $_REQUEST['valor'] : '';
+    getSlotTotalDepth($valor);
+
+} else if($op == 'listaPorSlotCero') { // DEMOSS
     $idSlot = (!empty($_REQUEST['slot'])) ? $_REQUEST['slot'] : '';      
     listaPorSlotCero($idSlot);    
 } else {
@@ -79,7 +83,7 @@ function listaPorSlot($slot)
 }
 
 /**
-* lista 1 slot (con con # de datos requerido)
+* lista 1 slot (con con # de datos requerido) :: GRAFICO 01
 */
 function getSlot($idSlot, $limit = '') {
     $myPdo = MyPdo::getInstance();
@@ -96,6 +100,30 @@ function getSlot($idSlot, $limit = '') {
         $stmt = $conn->prepare($sql);    
         $stmt->execute();
         $rs = $stmt->fetch();
+    }
+    $conn = NULL;
+
+    echo json_encode($rs);
+}
+
+/**
+* lista solo el valor (unicos) total deppht :: GRAFICO 01
+*/
+function getSlotTotalDepth($valor) {
+    $myPdo = MyPdo::getInstance();
+    $conn  = $myPdo->getConnect();
+    
+    $rs = NULL;    
+    if (!empty($valor)) {
+        if($valor == ">1000") {
+            $sql = "SELECT * FROM datos WHERE slot = '0110' AND valor > 1000 GROUP BY (valor)";
+        } else {
+            $sql = "SELECT * FROM datos WHERE slot = '0110' AND valor <= {$valor} GROUP BY (valor)";    
+        }
+        
+        $stmt = $conn->prepare($sql);    
+        $stmt->execute();
+        $rs = $stmt->fetchAll();        
     }
     $conn = NULL;
 

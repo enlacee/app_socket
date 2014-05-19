@@ -111,6 +111,8 @@
                                         <option value="250">250</option>
                                         <option value="500">500</option>
                                         <option value="1000">1000</option>
+                                        <option value=">1000">>1000</option>
+                                        
                                     </select>
                                 </div>
                             </div>
@@ -258,7 +260,7 @@
             success: function (data){
                 for (var i = 1; i <= $param.length; i++) {
                     $.each(data, function(key, value) {
-                        if (value.slot != '0108') {
+                        if (value.slot != '0110') {
                             $('#param_'+i)
                                 .append($("<option></option>")
                                 .attr("value", value.slot)
